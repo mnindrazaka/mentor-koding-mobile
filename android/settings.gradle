@@ -1,0 +1,3 @@
+rootProject.name = 'mentor_koding_mobile'
+
+include ':app'
