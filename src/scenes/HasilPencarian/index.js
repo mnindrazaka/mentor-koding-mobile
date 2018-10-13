@@ -1,36 +1,34 @@
 import React, { Component } from 'react'
-import { Container, Content, List } from 'native-base'
+import { Container, Content, Input, Icon, List } from 'native-base'
 
+import Header from '../../components/Header'
+import Item from '../../components/Item'
 import ListItem from './ListItem'
 
-class ObrolanTerbaru extends Component {
+class HasilPencarian extends Component {
   state = {
     data: [
       {
         name: 'Nama Mentor',
-        message: 'Lorem ipsum dolor sit amet',
-        time: '3:43 PM',
+        headline: 'Frontend Developer at WRI',
         imageURL:
           'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
       },
       {
         name: 'Nama Mentor',
-        message: 'Lorem ipsum dolor sit amet',
-        time: '3:43 PM',
+        headline: 'Frontend Developer at WRI',
         imageURL:
           'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
       },
       {
         name: 'Nama Mentor',
-        message: 'Lorem ipsum dolor sit amet',
-        time: '3:43 PM',
+        headline: 'Frontend Developer at WRI',
         imageURL:
           'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
       },
       {
         name: 'Nama Mentor',
-        message: 'Lorem ipsum dolor sit amet',
-        time: '3:43 PM',
+        headline: 'Frontend Developer at WRI',
         imageURL:
           'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
       }
@@ -38,14 +36,11 @@ class ObrolanTerbaru extends Component {
   }
 
   renderRow(row) {
-    const { navigate } = this.props.navigation
     return (
       <ListItem
         name={row.name}
-        message={row.message}
-        time={row.time}
+        headline={row.headline}
         imageURL={row.imageURL}
-        onPress={() => navigate('Obrolan')}
       />
     )
   }
@@ -53,7 +48,12 @@ class ObrolanTerbaru extends Component {
   render() {
     return (
       <Container>
+        <Header title={'Hasil Pencarian'} navigation={this.props.navigation} />
         <Content padder>
+          <Item regular>
+            <Icon name={'magnify'} />
+            <Input placeholder={'Topik yang ingin dipelajari'} />
+          </Item>
           <List
             dataArray={this.state.data}
             renderRow={row => this.renderRow(row)}
@@ -64,9 +64,8 @@ class ObrolanTerbaru extends Component {
   }
 }
 
-ObrolanTerbaru.navigationOptions = {
-  header: null,
-  title: 'Obrolan'
+HasilPencarian.navigationOptions = {
+  header: null
 }
 
-export default ObrolanTerbaru
+export default HasilPencarian

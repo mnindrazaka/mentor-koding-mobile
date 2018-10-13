@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { ListItem, Left, Thumbnail, Body, Text, Right } from 'native-base'
 import PropTypes from 'prop-types'
 
-class Obrolan extends Component {
+class CustomListItem extends Component {
   render() {
     return (
-      <ListItem button thumbnail onPress={() => alert('goto chat')}>
+      <ListItem button thumbnail onPress={() => this.props.onPress()}>
         <Left>
           <Thumbnail source={{ uri: this.props.imageURL }} />
         </Left>
@@ -21,11 +21,12 @@ class Obrolan extends Component {
   }
 }
 
-Obrolan.propTypes = {
+CustomListItem.propTypes = {
   name: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
   time: PropTypes.string.isRequired,
-  imageURL: PropTypes.string.isRequired
+  imageURL: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired
 }
 
-export default Obrolan
+export default CustomListItem

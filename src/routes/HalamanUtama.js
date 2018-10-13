@@ -1,14 +1,14 @@
 import { createMaterialTopTabNavigator } from 'react-navigation'
 
-import Pencarian from '../scenes/Pencarian'
-import ObrolanTerbaru from '../scenes/ObrolanTerbaru'
+import Pencarian from './Pencarian'
+import Obrolan from './Obrolan'
 
 import material from '../../native-base-theme/variables/material'
 
 const HalamanUtama = createMaterialTopTabNavigator(
   {
     Pencarian,
-    ObrolanTerbaru
+    Obrolan
   },
   {
     tabBarPosition: 'bottom',

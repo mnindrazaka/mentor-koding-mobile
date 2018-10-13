@@ -14,6 +14,7 @@ import Item from '../../components/Item'
 
 class Pencarian extends Component {
   render() {
+    const { navigate } = this.props.navigation
     return (
       <Container>
         <Content padder justifyContent={'center'}>
@@ -29,7 +30,7 @@ class Pencarian extends Component {
             <Input placeholder={'Topik yang ingin dipelajari'} />
           </Item>
 
-          <Button iconLeft block>
+          <Button iconLeft block onPress={() => navigate('HasilPencarian')}>
             <Icon name={'magnify'} />
             <Text>Cari Mentor</Text>
           </Button>
@@ -37,6 +38,10 @@ class Pencarian extends Component {
       </Container>
     )
   }
+}
+
+Pencarian.navigationOptions = {
+  header: null
 }
 
 export default Pencarian
