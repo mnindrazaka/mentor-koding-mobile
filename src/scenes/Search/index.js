@@ -12,7 +12,7 @@ import {
 
 import Item from '../../components/Item'
 
-class Pencarian extends Component {
+class Search extends Component {
   render() {
     const { navigate } = this.props.navigation
     return (
@@ -30,7 +30,7 @@ class Pencarian extends Component {
             <Input placeholder={'Topik yang ingin dipelajari'} />
           </Item>
 
-          <Button iconLeft block onPress={() => navigate('HasilPencarian')}>
+          <Button iconLeft block onPress={() => navigate('SearchResult')}>
             <Icon name={'magnify'} />
             <Text>Cari Mentor</Text>
           </Button>
@@ -40,8 +40,4 @@ class Pencarian extends Component {
   }
 }
 
-Pencarian.navigationOptions = {
-  header: null
-}
-
-export default Pencarian
+export default Search

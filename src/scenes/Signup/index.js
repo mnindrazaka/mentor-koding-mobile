@@ -4,7 +4,7 @@ import { Content, Input, Text, H3, Button, Container } from 'native-base'
 import Item from '../../components/Item'
 import Header from '../../components/Header'
 
-class Daftar extends Component {
+class Signup extends Component {
   render() {
     return (
       <Container>
@@ -42,8 +42,4 @@ class Daftar extends Component {
   }
 }
 
-Daftar.navigationOptions = {
-  header: null
-}
-
-export default Daftar
+export default Signup

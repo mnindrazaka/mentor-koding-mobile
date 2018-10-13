@@ -3,7 +3,7 @@ import { Container, Content, List } from 'native-base'
 
 import ListItem from './ListItem'
 
-class ObrolanTerbaru extends Component {
+class ChatList extends Component {
   state = {
     data: [
       {
@@ -45,7 +45,7 @@ class ObrolanTerbaru extends Component {
         message={row.message}
         time={row.time}
         imageURL={row.imageURL}
-        onPress={() => navigate('Obrolan')}
+        onPress={() => navigate('ChatRoom')}
       />
     )
   }
@@ -64,9 +64,4 @@ class ObrolanTerbaru extends Component {
   }
 }
 
-ObrolanTerbaru.navigationOptions = {
-  header: null,
-  title: 'Obrolan'
-}
-
-export default ObrolanTerbaru
+export default ChatList

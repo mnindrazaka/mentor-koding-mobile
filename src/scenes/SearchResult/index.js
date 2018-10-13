@@ -5,7 +5,7 @@ import Header from '../../components/Header'
 import Item from '../../components/Item'
 import ListItem from './ListItem'
 
-class HasilPencarian extends Component {
+class SearchResult extends Component {
   state = {
     data: [
       {
@@ -64,8 +64,4 @@ class HasilPencarian extends Component {
   }
 }
 
-HasilPencarian.navigationOptions = {
-  header: null
-}
-
-export default HasilPencarian
+export default SearchResult

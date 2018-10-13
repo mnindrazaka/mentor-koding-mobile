@@ -5,7 +5,7 @@ import Logo from './Logo'
 
 import material from '../../../native-base-theme/variables/material'
 
-class Masuk extends Component {
+class Signin extends Component {
   render() {
     const { navigate } = this.props.navigation
     return (
@@ -23,14 +23,11 @@ class Masuk extends Component {
             <Input placeholder="Kata Sandi" />
           </Item>
 
-          <Button
-            block
-            marginBottom={15}
-            onPress={() => navigate('HalamanUtama')}>
+          <Button block marginBottom={15} onPress={() => navigate('Main')}>
             <Text>Masuk</Text>
           </Button>
 
-          <Button block bordered onPress={() => navigate('Daftar')}>
+          <Button block bordered onPress={() => navigate('Signup')}>
             <Text>Daftar</Text>
           </Button>
         </Content>
@@ -39,8 +36,4 @@ class Masuk extends Component {
   }
 }
 
-Masuk.navigationOptions = {
-  header: null
-}
-
-export default Masuk
+export default Signin
