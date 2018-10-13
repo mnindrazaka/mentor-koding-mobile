@@ -1,9 +1,11 @@
 import { createStackNavigator } from 'react-navigation'
 
-import Login from '../scenes/Login'
+import Masuk from '../scenes/Masuk'
 import Daftar from '../scenes/Daftar'
+import HalamanUtama from './HalamanUtama'
 
 export default createStackNavigator({
-  Login,
-  Daftar
+  Masuk,
+  Daftar,
+  HalamanUtama
 })

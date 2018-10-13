@@ -5,12 +5,9 @@ import Logo from './Logo'
 
 import material from '../../../native-base-theme/variables/material'
 
-class Login extends Component {
-  moveToDaftar() {
-    this.props.navigation.navigate('Daftar')
-  }
-
+class Masuk extends Component {
   render() {
+    const { navigate } = this.props.navigation
     return (
       <Container>
         <Content padder justifyContent={'center'}>
@@ -18,19 +15,22 @@ class Login extends Component {
 
           <Item regular>
             <Icon name="account" style={{ color: material.brandPrimary }} />
-            <Input placeholder="Username" />
+            <Input placeholder="Nama Pengguna" />
           </Item>
 
           <Item regular>
             <Icon name="lock" style={{ color: material.brandPrimary }} />
-            <Input placeholder="Password" />
+            <Input placeholder="Kata Sandi" />
           </Item>
 
-          <Button block marginBottom={15}>
-            <Text>Login</Text>
+          <Button
+            block
+            marginBottom={15}
+            onPress={() => navigate('HalamanUtama')}>
+            <Text>Masuk</Text>
           </Button>
 
-          <Button block bordered onPress={() => this.moveToDaftar()}>
+          <Button block bordered onPress={() => navigate('Daftar')}>
             <Text>Daftar</Text>
           </Button>
         </Content>
@@ -39,8 +39,8 @@ class Login extends Component {
   }
 }
 
-Login.navigationOptions = {
+Masuk.navigationOptions = {
   header: null
 }
 
-export default Login
+export default Masuk
