@@ -15,6 +15,7 @@ import Header from '../../components/Header'
 
 class MeetupDetail extends Component {
   render() {
+    const { navigate } = this.props.navigation
     return (
       <Container>
         <Header title={'Detail Meetup'} navigation={this.props.navigation} />
@@ -61,7 +62,7 @@ class MeetupDetail extends Component {
             </Body>
           </ListItem>
         </Content>
-        <Button block success>
+        <Button block success onPress={() => navigate('MeetupReview')}>
           <Text>Selesai</Text>
         </Button>
       </Container>

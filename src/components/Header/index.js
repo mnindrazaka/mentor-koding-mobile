@@ -3,6 +3,11 @@ import PropTypes from 'prop-types'
 import { Header, Left, Button, Icon, Title, Right, Body } from 'native-base'
 
 class CustomHeader extends Component {
+  renderRightComponent() {
+    if (this.props.rightComponent)
+      return <Right>{this.props.rightComponent}</Right>
+  }
+
   render() {
     return (
       <Header marginBottom={15}>
@@ -14,7 +19,7 @@ class CustomHeader extends Component {
         <Body>
           <Title>{this.props.title}</Title>
         </Body>
-        <Right>{this.props.rightComponent}</Right>
+        {this.renderRightComponent()}
       </Header>
     )
   }
