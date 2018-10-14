@@ -1,6 +1,7 @@
 import { createMaterialTopTabNavigator } from 'react-navigation'
 
 import Search from './Search'
+import Meetup from './Meetup'
 import Chat from './Chat'
 
 import material from '../../native-base-theme/variables/material'
@@ -8,6 +9,7 @@ import material from '../../native-base-theme/variables/material'
 const Main = createMaterialTopTabNavigator(
   {
     Search,
+    Meetup,
     Chat
   },
   {
