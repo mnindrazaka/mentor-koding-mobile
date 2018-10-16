@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Tabs, Tab, Text, TabHeading, Icon } from 'native-base'
+import { Tabs, Tab, TabHeading, Icon } from 'native-base'
 import styled from 'styled-components/native'
 
 import material from '../../../native-base-theme/variables/material'
@@ -8,6 +8,7 @@ import ProfileInfo from './ProfileInfo'
 import Skills from './Skills'
 import Review from './Review'
 import SocialMedia from './SocialMedia'
+import Setting from './Setting'
 
 class CustomTabs extends Component {
   render() {
@@ -44,6 +45,7 @@ class CustomTabs extends Component {
               }>
               <Review />
             </Tab>
+
             <Tab
               heading={
                 <TabHeading style={{ backgroundColor: '#fff' }}>
@@ -51,6 +53,15 @@ class CustomTabs extends Component {
                 </TabHeading>
               }>
               <SocialMedia />
+            </Tab>
+
+            <Tab
+              heading={
+                <TabHeading style={{ backgroundColor: '#fff' }}>
+                  <Icon name={'settings-outline'} style={{ color: '#555' }} />
+                </TabHeading>
+              }>
+              <Setting navigation={this.props.navigation} />
             </Tab>
           </Tabs>
         </TabWrapper>

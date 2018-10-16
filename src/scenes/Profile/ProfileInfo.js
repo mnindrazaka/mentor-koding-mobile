@@ -15,7 +15,7 @@ class ProfileInfo extends Component {
   render() {
     return (
       <Container marginTop={15}>
-        <Title>Informasi Profile</Title>
+        <Title>Informasi Profil</Title>
         <Content>
           <ListItem icon marginBottom={15}>
             <Left>
