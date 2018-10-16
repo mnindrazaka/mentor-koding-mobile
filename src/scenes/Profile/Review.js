@@ -5,6 +5,54 @@ import StarRating from 'react-native-star-rating'
 import styled from 'styled-components/native'
 
 class Review extends Component {
+  state = {
+    data: [
+      {
+        name: 'Fany Ervansyah',
+        date: '16/08/2018',
+        rating: 4,
+        review: 'Lorem ipsum dolor sit amet'
+      },
+      {
+        name: 'Fany Ervansyah',
+        date: '16/08/2018',
+        rating: 4,
+        review: 'Lorem ipsum dolor sit amet'
+      },
+      {
+        name: 'Fany Ervansyah',
+        date: '16/08/2018',
+        rating: 4,
+        review: 'Lorem ipsum dolor sit amet'
+      }
+    ]
+  }
+
+  renderItems() {
+    return this.state.data.map((item, index) => (
+      <Wrapper key={index}>
+        <Grid>
+          <Col>
+            <Text>{item.name}</Text>
+          </Col>
+          <Col alignItems={'flex-end'}>
+            <Text note>{item.date}</Text>
+          </Col>
+        </Grid>
+        <StarRating
+          iconSet={'MaterialCommunityIcons'}
+          emptyStar={'star-outline'}
+          maxStars={5}
+          rating={item.rating}
+          starSize={15}
+          disabled
+          containerStyle={{ alignSelf: 'flex-start', marginBottom: 15 }}
+        />
+        <Text note>{item.review}</Text>
+      </Wrapper>
+    ))
+  }
+
   render() {
     return (
       <Container marginTop={15}>
@@ -20,133 +68,7 @@ class Review extends Component {
           containerStyle={{ alignSelf: 'center', marginBottom: 15 }}
         />
 
-        <Content>
-          <Wrapper>
-            <Grid>
-              <Col>
-                <Text>Fany Ervansyah</Text>
-              </Col>
-              <Col alignItems={'flex-end'}>
-                <Text note>12/08/2018</Text>
-              </Col>
-            </Grid>
-            <StarRating
-              iconSet={'MaterialCommunityIcons'}
-              emptyStar={'star-outline'}
-              maxStars={5}
-              rating={4}
-              starSize={15}
-              disabled
-              containerStyle={{ alignSelf: 'flex-start', marginBottom: 15 }}
-            />
-            <Text note>Lorem ipsum dolor sit amet</Text>
-          </Wrapper>
-
-          <Wrapper>
-            <Grid>
-              <Col>
-                <Text>Fany Ervansyah</Text>
-              </Col>
-              <Col alignItems={'flex-end'}>
-                <Text note>12/08/2018</Text>
-              </Col>
-            </Grid>
-            <StarRating
-              iconSet={'MaterialCommunityIcons'}
-              emptyStar={'star-outline'}
-              maxStars={5}
-              rating={4}
-              starSize={15}
-              disabled
-              containerStyle={{ alignSelf: 'flex-start', marginBottom: 15 }}
-            />
-            <Text note>Lorem ipsum dolor sit amet</Text>
-          </Wrapper>
-
-          <Wrapper>
-            <Grid>
-              <Col>
-                <Text>Fany Ervansyah</Text>
-              </Col>
-              <Col alignItems={'flex-end'}>
-                <Text note>12/08/2018</Text>
-              </Col>
-            </Grid>
-            <StarRating
-              iconSet={'MaterialCommunityIcons'}
-              emptyStar={'star-outline'}
-              maxStars={5}
-              rating={4}
-              starSize={15}
-              disabled
-              containerStyle={{ alignSelf: 'flex-start', marginBottom: 15 }}
-            />
-            <Text note>Lorem ipsum dolor sit amet</Text>
-          </Wrapper>
-
-          <Wrapper>
-            <Grid>
-              <Col>
-                <Text>Fany Ervansyah</Text>
-              </Col>
-              <Col alignItems={'flex-end'}>
-                <Text note>12/08/2018</Text>
-              </Col>
-            </Grid>
-            <StarRating
-              iconSet={'MaterialCommunityIcons'}
-              emptyStar={'star-outline'}
-              maxStars={5}
-              rating={4}
-              starSize={15}
-              disabled
-              containerStyle={{ alignSelf: 'flex-start', marginBottom: 15 }}
-            />
-            <Text note>Lorem ipsum dolor sit amet</Text>
-          </Wrapper>
-
-          <Wrapper>
-            <Grid>
-              <Col>
-                <Text>Fany Ervansyah</Text>
-              </Col>
-              <Col alignItems={'flex-end'}>
-                <Text note>12/08/2018</Text>
-              </Col>
-            </Grid>
-            <StarRating
-              iconSet={'MaterialCommunityIcons'}
-              emptyStar={'star-outline'}
-              maxStars={5}
-              rating={4}
-              starSize={15}
-              disabled
-              containerStyle={{ alignSelf: 'flex-start', marginBottom: 15 }}
-            />
-            <Text note>Lorem ipsum dolor sit amet</Text>
-          </Wrapper>
-
-          <Wrapper>
-            <Grid>
-              <Col>
-                <Text>Fany Ervansyah</Text>
-              </Col>
-              <Col alignItems={'flex-end'}>
-                <Text note>12/08/2018</Text>
-              </Col>
-            </Grid>
-            <StarRating
-              iconSet={'MaterialCommunityIcons'}
-              emptyStar={'star-outline'}
-              maxStars={5}
-              rating={4}
-              starSize={15}
-              disabled
-              containerStyle={{ alignSelf: 'flex-start', marginBottom: 15 }}
-            />
-            <Text note>Lorem ipsum dolor sit amet</Text>
-          </Wrapper>
-        </Content>
+        <Content>{this.renderItems()}</Content>
       </Container>
     )
   }
