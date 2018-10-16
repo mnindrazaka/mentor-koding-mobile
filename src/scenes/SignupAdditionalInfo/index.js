@@ -39,7 +39,7 @@ class SignupAdditionalInfo extends Component {
           </Item>
 
           <View flexDirection={'row'} justifyContent={'space-between'}>
-            <Button success block onPress={() => navigate('SignupSelectSkill')}>
+            <Button success block onPress={() => navigate('SignupSocialMedia')}>
               <Text>Simpan</Text>
             </Button>
 
@@ -47,7 +47,7 @@ class SignupAdditionalInfo extends Component {
               danger
               bordered
               block
-              onPress={() => navigate('SignupSelectSkill')}>
+              onPress={() => navigate('SignupSocialMedia')}>
               <Text>Lewati</Text>
             </Button>
           </View>

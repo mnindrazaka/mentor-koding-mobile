@@ -42,8 +42,12 @@ class Signup extends Component {
             <Input placeholder="Masukkan Telepon" keyboardType={'numeric'} />
           </Item>
         </Content>
-        <Button block success onPress={() => navigate('SignupAdditionalInfo')}>
-          <Text>Simpan</Text>
+        <Button
+          block
+          success
+          onPress={() => navigate('SignupCongratulation')}
+          borderRadius={0}>
+          <Text>Daftar</Text>
         </Button>
       </Container>
     )

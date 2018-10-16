@@ -38,6 +38,7 @@ class SignupSelectSkill extends Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation
     return (
       <Container>
         <Header navigation={this.props.navigation} title={'Kemampuan Anda'} />
@@ -46,7 +47,7 @@ class SignupSelectSkill extends Component {
           <View marginBottom={15}>
             <Text>Pilih Kemampuan Yang Anda Kuasai</Text>
             <Text note>
-              Masukkan kemampuan yang anda kuasai sehingga user lain dapat
+              Masukkan kemampuan yang anda kuasai sehingga pengguna lain dapat
               belajar kepada anda, lewati jika anda tidak ingin menjadi mentor
             </Text>
           </View>
@@ -63,11 +64,22 @@ class SignupSelectSkill extends Component {
         <Content padder>{this.renderItems()}</Content>
 
         <View flexDirection={'row'}>
-          <Button success block flex={1} borderRadius={0}>
+          <Button
+            success
+            block
+            flex={1}
+            borderRadius={0}
+            onPress={() => navigate('Main')}>
             <Text>Simpan</Text>
           </Button>
 
-          <Button danger bordered block flex={1} borderRadius={0}>
+          <Button
+            danger
+            bordered
+            block
+            flex={1}
+            borderRadius={0}
+            onPress={() => navigate('Main')}>
             <Text>Lewati</Text>
           </Button>
         </View>

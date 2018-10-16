@@ -31,7 +31,7 @@ class CustomTabs extends Component {
             <Tab
               heading={
                 <TabHeading style={{ backgroundColor: '#fff' }}>
-                  <Icon name={'settings-outline'} style={{ color: '#555' }} />
+                  <Icon name={'laptop-mac'} style={{ color: '#555' }} />
                 </TabHeading>
               }>
               <Skills />
