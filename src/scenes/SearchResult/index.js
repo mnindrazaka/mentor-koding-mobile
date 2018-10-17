@@ -7,6 +7,7 @@ import ListItem from './ListItem'
 
 class SearchResult extends Component {
   state = {
+    searchText: '',
     data: [
       {
         name: 'Nama Mentor',
@@ -35,6 +36,12 @@ class SearchResult extends Component {
     ]
   }
 
+  changeSearchText(text) {
+    this.setState({
+      searchText: text
+    })
+  }
+
   renderRow(row) {
     return (
       <ListItem
@@ -52,7 +59,11 @@ class SearchResult extends Component {
         <Content padder>
           <Item regular>
             <Icon name={'magnify'} />
-            <Input placeholder={'Topik yang ingin dipelajari'} />
+            <Input
+              placeholder={'Topik yang ingin dipelajari'}
+              value={this.state.searchText}
+              onChangeText={text => this.changeSearchText(text)}
+            />
           </Item>
           <List
             dataArray={this.state.data}

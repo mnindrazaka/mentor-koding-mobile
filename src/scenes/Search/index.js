@@ -13,6 +13,16 @@ import {
 import Item from '../../components/Item'
 
 class Search extends Component {
+  state = {
+    searchText: ''
+  }
+
+  changeSearchText(text) {
+    this.setState({
+      searchText: text
+    })
+  }
+
   render() {
     const { navigate } = this.props.navigation
     return (
@@ -27,7 +37,11 @@ class Search extends Component {
           </View>
 
           <Item regular>
-            <Input placeholder={'Topik yang ingin dipelajari'} />
+            <Input
+              placeholder={'Topik yang ingin dipelajari'}
+              value={this.state.searchText}
+              onChangeText={text => this.changeSearchText(text)}
+            />
           </Item>
 
           <Button iconLeft block onPress={() => navigate('SearchResult')}>

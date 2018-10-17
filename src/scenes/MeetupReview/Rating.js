@@ -7,13 +7,16 @@ import material from '../../../native-base-theme/variables/material'
 
 class Rating extends Component {
   state = {
-    rating: 0
+    input: {
+      rating: 0,
+      review: ''
+    }
   }
 
-  onStarRatingPress(rating) {
-    this.setState({
-      rating
-    })
+  changeInput(value, name) {
+    let input = this.state.input
+    input[name] = value
+    this.setState({ input })
   }
 
   render() {
@@ -25,11 +28,17 @@ class Rating extends Component {
           emptyStar={'star-outline'}
           fullStarColor={material.brandPrimary}
           maxStars={5}
-          rating={this.state.rating}
-          selectedStar={rating => this.onStarRatingPress(rating)}
+          rating={this.state.input.rating}
+          selectedStar={value => this.changeInput(value, 'rating')}
         />
 
-        <Textarea rowSpan={5} bordered placeholder={'Berikan Ulasan'} />
+        <Textarea
+          rowSpan={5}
+          bordered
+          placeholder={'Berikan Ulasan'}
+          value={this.state.input.review}
+          onChangeText={text => this.changeInput(text, 'review')}
+        />
 
         <Button block onPress={() => navigate('MeetupList')}>
           <Text>Kirim Ulasan</Text>

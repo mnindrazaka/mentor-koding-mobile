@@ -7,38 +7,42 @@ import ChatInput from './ChatInput'
 
 class ChatRoom extends Component {
   state = {
-    data: [
+    messageInput: '',
+    messages: [
       {
         message:
           'lorem ipsum dolor sit amet proteus dolor ima tokino tameni, sasageyo sasageyo',
         time: '3:43 AM',
         mine: false
-      },
-      {
-        message: 'lorem ipsum dolor sit amet',
-        time: '3:43 AM',
-        mine: true
-      },
-      {
-        message: 'lorem ipsum dolor sit amet',
-        time: '3:43 AM',
-        mine: false
-      },
-      {
-        message: 'lorem ipsum dolor sit amet',
-        time: '3:43 AM',
-        mine: false
-      },
-      {
-        message: 'lorem ipsum dolor sit amet',
-        time: '3:43 AM',
-        mine: true
       }
     ]
   }
 
+  changeMessageInput(text) {
+    this.setState({
+      messageInput: text
+    })
+  }
+
+  clearMessageInput() {
+    this.setState({
+      messageInput: ''
+    })
+  }
+
+  submitMessage() {
+    let message = {
+      message: this.state.messageInput,
+      time: new Date().toLocaleTimeString(),
+      mine: true
+    }
+    let messages = this.state.messages
+    messages.push(message)
+    this.setState({ messages }, () => this.clearMessageInput())
+  }
+
   renderChats() {
-    return this.state.data.map((item, index) => (
+    return this.state.messages.map((item, index) => (
       <ChatBalloon message={item.message} time={item.time} mine={item.mine} />
     ))
   }
@@ -56,7 +60,11 @@ class ChatRoom extends Component {
           }
         />
         <Content padder>{this.renderChats()}</Content>
-        <ChatInput />
+        <ChatInput
+          value={this.state.messageInput}
+          onChangeText={text => this.changeMessageInput(text)}
+          onSubmit={() => this.submitMessage()}
+        />
       </Container>
     )
   }

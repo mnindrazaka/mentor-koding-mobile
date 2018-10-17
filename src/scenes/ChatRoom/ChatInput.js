@@ -7,9 +7,13 @@ class ChatInput extends Component {
     return (
       <Wrapper>
         <CustomItem regular>
-          <Input placeholder={'Ketik Pesan Anda'} />
+          <Input
+            placeholder={'Ketik Pesan Anda'}
+            value={this.props.value}
+            onChangeText={text => this.props.onChangeText(text)}
+          />
         </CustomItem>
-        <SendButton rounded>
+        <SendButton rounded onPress={() => this.props.onSubmit()}>
           <Icon name={'send'} style={{ fontSize: 20 }} />
         </SendButton>
       </Wrapper>

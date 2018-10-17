@@ -13,6 +13,20 @@ import Item from '../../components/Item'
 import Header from '../../components/Header'
 
 class SignupAdditionalInfo extends Component {
+  state = {
+    input: {
+      education: '',
+      job: '',
+      description: ''
+    }
+  }
+
+  changeInput(value, name) {
+    let input = this.state.input
+    input[name] = value
+    this.setState({ input })
+  }
+
   render() {
     const { navigate } = this.props.navigation
     return (
@@ -25,17 +39,29 @@ class SignupAdditionalInfo extends Component {
         <Content padder>
           <Text>Pendidikan Terakhir</Text>
           <Item regular>
-            <Input placeholder="Masukkan Pendidikan Terakhir" />
+            <Input
+              placeholder="Masukkan Pendidikan Terakhir"
+              value={this.state.input.education}
+              onChangeText={text => this.changeInput(text, 'education')}
+            />
           </Item>
 
           <Text>Pekerjaan</Text>
           <Item regular>
-            <Input placeholder="Masukkan Pekerjaan" />
+            <Input
+              placeholder="Masukkan Pekerjaan"
+              value={this.state.input.job}
+              onChangeText={text => this.changeInput(text, 'job')}
+            />
           </Item>
 
           <Text>Deskripsi</Text>
           <Item regular>
-            <Textarea placeholder="Ceritakan tentang anda" />
+            <Textarea
+              placeholder="Ceritakan tentang anda"
+              value={this.state.input.description}
+              onChangeText={text => this.changeInput(text, 'description')}
+            />
           </Item>
 
           <View flexDirection={'row'} justifyContent={'space-between'}>
