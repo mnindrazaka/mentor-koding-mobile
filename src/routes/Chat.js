@@ -1,6 +1,5 @@
 import { createStackNavigator } from 'react-navigation'
-import ChatList from '../scenes/ChatList'
-import ChatRoom from '../scenes/ChatRoom'
+import { ChatList, ChatRoom } from 'scenes'
 
 ChatList.navigationOptions = {
   header: null

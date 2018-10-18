@@ -1,8 +1,5 @@
 import { createStackNavigator } from 'react-navigation'
-import MeetupList from '../scenes/MeetupList'
-import MeetupDetail from '../scenes/MeetupDetail'
-import MeetupReview from '../scenes/MeetupReview'
-import MeetupRequest from '../scenes/MeetupRequest'
+import { MeetupList, MeetupDetail, MeetupReview, MeetupRequest } from 'scenes'
 
 MeetupList.navigationOptions = {
   header: null

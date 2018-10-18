@@ -1,9 +1,10 @@
 import { createStackNavigator } from 'react-navigation'
-
-import SignupCongratulation from '../scenes/SignupCongratulation'
-import SignupAdditionalInfo from '../scenes/SignupAdditionalInfo'
-import SignupSocialMedia from '../scenes/SignupSocialMedia'
-import SignupSelectSkill from '../scenes/SignupSelectSkill'
+import {
+  SignupCongratulation,
+  SignupAdditionalInfo,
+  SignupSocialMedia,
+  SignupSelectSkill
+} from 'scenes'
 
 const Welcoming = createStackNavigator({
   SignupCongratulation,

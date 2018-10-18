@@ -4,7 +4,7 @@ import Search from './Search'
 import Meetup from './Meetup'
 import Chat from './Chat'
 import Profile from './Profile'
-import material from '../../native-base-theme/variables/material'
+import material from 'native-base-theme/variables/material'
 
 import React from 'react'
 import { Icon } from 'native-base'

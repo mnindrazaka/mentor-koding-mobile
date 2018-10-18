@@ -1,6 +1,5 @@
 import { createStackNavigator } from 'react-navigation'
-import Search from '../scenes/Search'
-import SearchResult from '../scenes/SearchResult'
+import { Search, SearchResult } from 'scenes'
 
 Search.navigationOptions = {
   header: null

@@ -1,6 +1,5 @@
 import { createStackNavigator } from 'react-navigation'
-import Profile from '../scenes/Profile'
-import ProfileSetting from '../scenes/ProfileSetting'
+import { Profile, ProfileSetting } from 'scenes'
 
 Profile.navigationOptions = {
   header: null

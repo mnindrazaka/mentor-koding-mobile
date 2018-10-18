@@ -7,6 +7,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "graphql-request": "^1.8.2",
     "native-base": "^2.8.1",
     "react": "16.6.0-alpha.8af6728",
     "react-native": "0.57.3",
@@ -19,11 +20,17 @@
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
+    "babel-plugin-module-resolver": "^3.1.1",
     "jest": "23.6.0",
     "metro-react-native-babel-preset": "0.48.1",
     "react-test-renderer": "16.6.0-alpha.8af6728"
   },
   "jest": {
     "preset": "react-native"
+  },
+  "_moduleAliases": {
+    "components": "src/components",
+    "scenes": "src/scenes",
+    "native-base-theme": "native-base-theme"
   }
 }
