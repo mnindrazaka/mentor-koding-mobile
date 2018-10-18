@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Fab } from 'native-base'
 
-import BadgeIcon from '../../components/BadgeIcon'
+import { BadgeIcon } from 'components'
 import Upcoming from './Upcoming'
 import Remaining from './Remaining'
 

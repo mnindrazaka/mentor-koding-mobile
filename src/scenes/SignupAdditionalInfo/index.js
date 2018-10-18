@@ -9,8 +9,7 @@ import {
   View
 } from 'native-base'
 
-import Item from '../../components/Item'
-import Header from '../../components/Header'
+import { Header, Item } from 'components'
 
 class SignupAdditionalInfo extends Component {
   state = {

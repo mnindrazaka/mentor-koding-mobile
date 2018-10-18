@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Content, Input, Icon, List } from 'native-base'
-
-import Header from '../../components/Header'
-import Item from '../../components/Item'
+import { Header, Item } from 'components'
 import ListItem from './ListItem'
 
 class SearchResult extends Component {

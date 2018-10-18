@@ -10,7 +10,7 @@ import {
   Icon
 } from 'native-base'
 
-import Item from '../../components/Item'
+import { Item } from 'components'
 
 class Search extends Component {
   state = {

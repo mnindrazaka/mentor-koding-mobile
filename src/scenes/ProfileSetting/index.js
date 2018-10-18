@@ -9,8 +9,8 @@ import {
   Button
 } from 'native-base'
 
-import Header from '../../components/Header'
-import material from '../../../native-base-theme/variables/material'
+import { Header } from 'components'
+import material from 'native-base-theme/variables/material'
 
 import ProfileInfo from './ProfileInfo'
 import Skill from './Skill'

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Content, Icon, Input, Button, Text, Container } from 'native-base'
-import Item from '../../components/Item'
+import Item from 'components/Item'
 import Logo from './Logo'
+import material from 'native-base-theme/variables/material'
 
-import material from '../../../native-base-theme/variables/material'
+import { request as req } from 'graphql-request'
 
 class Signin extends Component {
   state = {
@@ -18,6 +19,8 @@ class Signin extends Component {
     input[name] = value
     this.setState({ input })
   }
+
+  login() {}
 
   render() {
     const { navigate } = this.props.navigation
@@ -41,10 +44,11 @@ class Signin extends Component {
               placeholder="Kata Sandi"
               value={this.state.input.password}
               onChangeText={text => this.changeInput(text, 'password')}
+              secureTextEntry
             />
           </Item>
 
-          <Button block marginBottom={15} onPress={() => navigate('Main')}>
+          <Button block marginBottom={15} onPress={() => this.login()}>
             <Text>Masuk</Text>
           </Button>
 

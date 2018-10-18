@@ -11,7 +11,7 @@ import {
   Button
 } from 'native-base'
 
-import Header from '../../components/Header'
+import { Header } from 'components'
 
 class MeetupDetail extends Component {
   render() {

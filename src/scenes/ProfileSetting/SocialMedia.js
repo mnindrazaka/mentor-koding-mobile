@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Content, Container, Text, Input, Textarea } from 'native-base'
+import { Content, Container, Input } from 'native-base'
 
-import Item from '../../components/Item'
-import TextIcon from '../../components/TextIcon'
+import { Item, TextIcon } from 'components'
 
 class SocialMedia extends Component {
   state = {

@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { Content, Input, Text, Button, Container } from 'native-base'
 
-import Item from '../../components/Item'
-import Header from '../../components/Header'
+import { Header, Item } from 'components'
 
 class Signup extends Component {
   state = {

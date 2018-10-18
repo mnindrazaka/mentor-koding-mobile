@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import styled from 'styled-components/native'
-import { Text, Icon, Container, H2, H1, Button } from 'native-base'
+import { Text, Icon, Container, H1, Button } from 'native-base'
 
-import material from '../../../native-base-theme/variables/material'
+import material from 'native-base-theme/variables/material'
 
 class SignupCongratulation extends Component {
   render() {

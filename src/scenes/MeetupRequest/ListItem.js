@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, H2, Button } from 'native-base'
-import TextIcon from '../../components/TextIcon'
-
+import { TextIcon } from 'components'
 import styled from 'styled-components/native'
 
 class CustomListItem extends Component {

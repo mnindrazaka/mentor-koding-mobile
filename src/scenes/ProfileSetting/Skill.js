@@ -11,7 +11,7 @@ import {
 
 import styled from 'styled-components/native'
 
-import Item from '../../components/Item'
+import Item from 'components/Item'
 
 class Skill extends Component {
   state = {

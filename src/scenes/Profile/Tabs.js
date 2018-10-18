@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Tabs, Tab, TabHeading, Icon } from 'native-base'
 import styled from 'styled-components/native'
 
-import material from '../../../native-base-theme/variables/material'
+import material from 'native-base-theme/variables/material'
 
 import ProfileInfo from './ProfileInfo'
 import Skills from './Skills'

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import material from '../../../native-base-theme/variables/material'
+import material from 'native-base-theme/variables/material'
 import styled from 'styled-components/native'
 
-import TextIcon from '../../components/TextIcon'
+import { TextIcon } from 'components'
 import { Grid, Col, View } from 'native-base'
 
 class Upcoming extends Component {

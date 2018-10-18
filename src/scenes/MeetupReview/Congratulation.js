@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components/native'
 import { H3, Text, Icon } from 'native-base'
 
-import material from '../../../native-base-theme/variables/material'
+import material from 'native-base-theme/variables/material'
 
 class Congratulation extends Component {
   render() {

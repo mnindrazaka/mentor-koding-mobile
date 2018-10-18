@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components/native'
 import PropTypes from 'prop-types'
 
-import material from '../../../native-base-theme/variables/material'
+import material from 'native-base-theme/variables/material'
 
 class ChatBalloon extends Component {
   render() {

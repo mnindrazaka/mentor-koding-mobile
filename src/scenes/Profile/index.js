@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Content, Text, Fab, Icon, Button } from 'native-base'
-
-import material from '../../../native-base-theme/variables/material'
+import { Container } from 'native-base'
 
 import Identity from './Identity'
 import Tabs from './Tabs'

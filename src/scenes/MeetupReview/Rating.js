@@ -3,7 +3,7 @@ import StarRating from 'react-native-star-rating'
 import styled from 'styled-components/native'
 import { Text, Textarea, Button } from 'native-base'
 
-import material from '../../../native-base-theme/variables/material'
+import material from 'native-base-theme/variables/material'
 
 class Rating extends Component {
   state = {

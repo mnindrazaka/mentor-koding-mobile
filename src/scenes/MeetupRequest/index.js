@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Content, List } from 'native-base'
 
-import Header from '../../components/Header'
+import { Header } from 'components'
 import ListItem from './ListItem'
 
 class MeetupRequest extends Component {

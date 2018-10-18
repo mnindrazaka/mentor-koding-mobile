@@ -11,8 +11,7 @@ import {
 
 import styled from 'styled-components/native'
 
-import Item from '../../components/Item'
-import Header from '../../components/Header'
+import { Header, Item } from 'components'
 
 class SignupSelectSkill extends Component {
   state = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Content, Button, Icon } from 'native-base'
+import { Header } from 'components'
 
-import Header from '../../components/Header'
 import ChatBalloon from './ChatBalloon'
 import ChatInput from './ChatInput'
 

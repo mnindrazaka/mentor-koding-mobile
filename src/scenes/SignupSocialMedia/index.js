@@ -1,17 +1,6 @@
 import React, { Component } from 'react'
-import {
-  Content,
-  Input,
-  Text,
-  Button,
-  Container,
-  Textarea,
-  View
-} from 'native-base'
-
-import Item from '../../components/Item'
-import TextIcon from '../../components/TextIcon'
-import Header from '../../components/Header'
+import { Content, Input, Text, Button, Container, View } from 'native-base'
+import { Header, Item, TextIcon } from 'components'
 
 class SignupSocialMedia extends Component {
   state = {

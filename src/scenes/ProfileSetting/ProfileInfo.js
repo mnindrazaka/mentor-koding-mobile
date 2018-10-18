@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Content, Container, Text, Input, Textarea } from 'native-base'
 
-import Item from '../../components/Item'
+import { Item } from 'components'
 
 class ProfileInfo extends Component {
   state = {

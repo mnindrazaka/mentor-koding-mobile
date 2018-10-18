@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Content, Container, Button, Text, View } from 'native-base'
+import { Container, Button, Text, View } from 'native-base'
 
 import styled from 'styled-components/native'
 

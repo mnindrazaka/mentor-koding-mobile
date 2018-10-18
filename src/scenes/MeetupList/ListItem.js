@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, H3, H2 } from 'native-base'
-import TextIcon from '../../components/TextIcon'
+import { TextIcon } from 'components'
 
 import styled from 'styled-components/native'
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Image, Thumbnail, H3 } from 'native-base'
-import material from '../../../native-base-theme/variables/material'
+import { Thumbnail } from 'native-base'
+import material from 'native-base-theme/variables/material'
 import styled from 'styled-components/native'
 
 class Identity extends Component {
