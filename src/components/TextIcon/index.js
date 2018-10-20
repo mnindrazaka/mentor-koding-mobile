@@ -4,18 +4,20 @@ import styled from 'styled-components/native'
 
 class TextIcon extends Component {
   render() {
-    return (
-      <View>
-        <CustomIcon
-          name={this.props.icon}
-          color={this.props.color}
-          size={this.props.size}
-        />
-        <Text color={this.props.color} size={this.props.size}>
-          {this.props.text}
-        </Text>
-      </View>
-    )
+    if (this.props.text)
+      return (
+        <View>
+          <CustomIcon
+            name={this.props.icon}
+            color={this.props.color}
+            size={this.props.size}
+          />
+          <Text color={this.props.color} size={this.props.size}>
+            {this.props.text}
+          </Text>
+        </View>
+      )
+    else return null
   }
 }
 

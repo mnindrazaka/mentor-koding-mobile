@@ -9,53 +9,37 @@ import {
   Container
 } from 'native-base'
 
+import ListIcon from './ListIcon'
 import styled from 'styled-components/native'
 
 class ProfileInfo extends Component {
   render() {
+    const { profile } = this.props
     return (
       <Container marginTop={15}>
         <Title>Informasi Profil</Title>
         <Content>
-          <ListItem icon marginBottom={15}>
-            <Left>
-              <Icon name={'map-marker'} />
-            </Left>
-            <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Alamat</Text>
-              <Text note>JL Soekarno Hatta</Text>
-            </Body>
-          </ListItem>
+          <ListIcon
+            text={profile.address}
+            label={'Alamat'}
+            icon={'map-marker'}
+          />
 
-          <ListItem icon marginBottom={15}>
-            <Left>
-              <Icon name={'cellphone-iphone'} />
-            </Left>
-            <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Telepon</Text>
-              <Text note>085331247098</Text>
-            </Body>
-          </ListItem>
+          <ListIcon
+            text={profile.phone}
+            label={'Telepon'}
+            icon={'cellphone-iphone'}
+          />
 
-          <ListItem icon marginBottom={15}>
-            <Left>
-              <Icon name={'school'} />
-            </Left>
-            <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Pendidikan Terakhir</Text>
-              <Text note>Politeknik Negeri Malang</Text>
-            </Body>
-          </ListItem>
+          <ListIcon text={profile.email} label={'Email'} icon={'email'} />
 
-          <ListItem icon marginBottom={15}>
-            <Left>
-              <Icon name={'briefcase'} />
-            </Left>
-            <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Pekerjaan</Text>
-              <Text note>Frontend Developer di Workshop Riset Informatika</Text>
-            </Body>
-          </ListItem>
+          <ListIcon
+            text={profile.education}
+            label={'Pendidikan Terakhir'}
+            icon={'school'}
+          />
+
+          <ListIcon text={profile.job} label={'Pekerjaan'} icon={'briefcase'} />
         </Content>
       </Container>
     )

@@ -1,9 +1,15 @@
 import React, { Component } from 'react'
+import { AsyncStorage } from 'react-native'
 import { Container, Button, Text, View } from 'native-base'
-
 import styled from 'styled-components/native'
 
 class Setting extends Component {
+  logout() {
+    AsyncStorage.removeItem('token').then(() => {
+      this.props.navigation.navigate('Signin')
+    })
+  }
+
   render() {
     const { navigate } = this.props.navigation
     return (
@@ -17,7 +23,7 @@ class Setting extends Component {
             <Text>Pengaturan Profil</Text>
           </Button>
 
-          <Button danger block bordered onPress={() => navigate('Signin')}>
+          <Button danger block bordered onPress={() => this.logout()}>
             <Text>Keluar</Text>
           </Button>
         </View>

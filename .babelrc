@@ -9,6 +9,7 @@
             "alias": {
               "components": "./src/components",
               "scenes": "./src/scenes",
+              "services": "./src/services",
               "native-base-theme": "./native-base-theme"
             }
           }

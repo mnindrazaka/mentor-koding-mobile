@@ -4,27 +4,19 @@ import { Content, Container, Text } from 'native-base'
 import styled from 'styled-components/native'
 
 class Skills extends Component {
+  renderItems() {
+    return this.props.profile.skills.map((skill, index) => (
+      <Wrapper key={index}>
+        <Text>{skill}</Text>
+      </Wrapper>
+    ))
+  }
+
   render() {
     return (
       <Container marginTop={15}>
         <Title>Keahlian yang dimiliki</Title>
-        <Content>
-          <Wrapper>
-            <Text>React Native</Text>
-          </Wrapper>
-
-          <Wrapper>
-            <Text>Node JS</Text>
-          </Wrapper>
-
-          <Wrapper>
-            <Text>Graphql</Text>
-          </Wrapper>
-
-          <Wrapper>
-            <Text>Apollo</Text>
-          </Wrapper>
-        </Content>
+        <Content>{this.renderItems()}</Content>
       </Container>
     )
   }

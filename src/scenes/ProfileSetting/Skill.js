@@ -10,13 +10,11 @@ import {
 } from 'native-base'
 
 import styled from 'styled-components/native'
-
 import Item from 'components/Item'
 
 class Skill extends Component {
   state = {
-    inputSkill: '',
-    skills: []
+    inputSkill: ''
   }
 
   changeInputSkill(text) {
@@ -27,26 +25,19 @@ class Skill extends Component {
     this.setState({ inputSkill: '' })
   }
 
-  addSkill() {
-    let skills = this.state.skills
-    skills.push(this.state.inputSkill)
-    this.setState({ skills }, () => this.clearInputSkill())
-  }
-
-  removeSkill(skill) {
-    let skills = this.state.skills.filter(item => item !== skill)
-    this.setState({ skills })
-  }
-
   renderItems() {
-    return this.state.skills.map((item, index) => (
+    return this.props.skills.map((item, index) => (
       <Wrapper key={index}>
         <View
           flexDirection={'row'}
           alignItems={'center'}
           justifyContent={'space-between'}>
           <Text>{item}</Text>
-          <Button danger bordered small onPress={() => this.removeSkill(item)}>
+          <Button
+            danger
+            bordered
+            small
+            onPress={() => this.props.onRemoveSkill(item)}>
             <Icon name={'close'} />
           </Button>
         </View>
@@ -74,7 +65,12 @@ class Skill extends Component {
             />
           </Item>
 
-          <Button block onPress={() => this.addSkill()}>
+          <Button
+            block
+            onPress={() => {
+              this.props.onAddSkill(this.state.inputSkill)
+              this.clearInputSkill()
+            }}>
             <Text>Tambahkan Keahlian</Text>
           </Button>
         </View>

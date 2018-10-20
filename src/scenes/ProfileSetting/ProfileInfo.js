@@ -4,23 +4,6 @@ import { Content, Container, Text, Input, Textarea } from 'native-base'
 import { Item } from 'components'
 
 class ProfileInfo extends Component {
-  state = {
-    input: {
-      name: '',
-      address: '',
-      phone: '',
-      education: '',
-      job: '',
-      description: ''
-    }
-  }
-
-  changeInput(value, name) {
-    let input = this.state.input
-    input[name] = value
-    this.setState({ input })
-  }
-
   render() {
     return (
       <Container marginTop={15}>
@@ -29,8 +12,8 @@ class ProfileInfo extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Nama"
-              value={this.state.input.name}
-              onChangeText={text => this.changeInput(text, 'name')}
+              value={this.props.input.name}
+              onChangeText={text => this.props.onChange('name', text)}
             />
           </Item>
 
@@ -38,8 +21,8 @@ class ProfileInfo extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Alamat"
-              value={this.state.input.address}
-              onChangeText={text => this.changeInput(text, 'address')}
+              value={this.props.input.address}
+              onChangeText={text => this.props.onChange('address', text)}
             />
           </Item>
 
@@ -48,8 +31,8 @@ class ProfileInfo extends Component {
             <Input
               placeholder="Masukkan Telepon"
               keyboardType={'numeric'}
-              value={this.state.input.phone}
-              onChangeText={text => this.changeInput(text, 'phone')}
+              value={this.props.input.phone}
+              onChangeText={text => this.props.onChange('phone', text)}
             />
           </Item>
 
@@ -57,8 +40,8 @@ class ProfileInfo extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Pendidikan Terakhir"
-              value={this.state.input.education}
-              onChangeText={text => this.changeInput(text, 'education')}
+              value={this.props.input.education}
+              onChangeText={text => this.props.onChange('education', text)}
             />
           </Item>
 
@@ -66,8 +49,8 @@ class ProfileInfo extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Pekerjaan"
-              value={this.state.input.job}
-              onChangeText={text => this.changeInput(text, 'job')}
+              value={this.props.input.job}
+              onChangeText={text => this.props.onChange('job', text)}
             />
           </Item>
 
@@ -75,8 +58,8 @@ class ProfileInfo extends Component {
           <Item regular>
             <Textarea
               placeholder="Ceritakan tentang anda"
-              value={this.state.input.description}
-              onChangeText={text => this.changeInput(text, 'description')}
+              value={this.props.input.description}
+              onChangeText={text => this.props.onChange('description', text)}
             />
           </Item>
         </Content>

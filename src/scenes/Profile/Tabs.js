@@ -27,7 +27,7 @@ class CustomTabs extends Component {
                   />
                 </TabHeading>
               }>
-              <ProfileInfo />
+              <ProfileInfo profile={this.props.profile} />
             </Tab>
             <Tab
               heading={
@@ -35,7 +35,7 @@ class CustomTabs extends Component {
                   <Icon name={'laptop-mac'} style={{ color: '#555' }} />
                 </TabHeading>
               }>
-              <Skills />
+              <Skills profile={this.props.profile} />
             </Tab>
             <Tab
               heading={
@@ -43,7 +43,7 @@ class CustomTabs extends Component {
                   <Icon name={'star-half'} style={{ color: '#555' }} />
                 </TabHeading>
               }>
-              <Review />
+              <Review profile={this.props.profile} />
             </Tab>
 
             <Tab
@@ -52,7 +52,7 @@ class CustomTabs extends Component {
                   <Icon name={'web'} style={{ color: '#555' }} />
                 </TabHeading>
               }>
-              <SocialMedia />
+              <SocialMedia profile={this.props.profile} />
             </Tab>
 
             <Tab
@@ -78,9 +78,6 @@ const Container = styled.View`
 `
 const TabWrapper = styled.View`
   padding: 15px;
-`
-const CustomTabHeading = styled(TabHeading)`
-  background-color: #fff;
 `
 
 export default CustomTabs

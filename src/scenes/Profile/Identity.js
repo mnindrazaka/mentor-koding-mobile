@@ -5,16 +5,16 @@ import styled from 'styled-components/native'
 
 class Identity extends Component {
   render() {
+    const { profile } = this.props
     return (
       <Container>
         <Photo
           source={{
-            uri:
-              'https://content-static.upwork.com/uploads/2014/10/02123010/profilephoto_goodcrop.jpg'
+            uri: profile.profilePic
           }}
         />
-        <Name>M. Nindra Zaka</Name>
-        <Headline>Web Developer at Workshop Riset Informatika</Headline>
+        <Name>{profile.name}</Name>
+        <Headline>{profile.description}</Headline>
       </Container>
     )
   }
@@ -31,7 +31,7 @@ const Photo = styled(Thumbnail)`
   width: 100px;
   height: 100px;
   border-radius: 50px;
-  border: solid 2px white;
+  border: 2px white;
   margin-bottom: 10px;
 `
 

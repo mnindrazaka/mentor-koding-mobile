@@ -27,8 +27,8 @@ class SocialMedia extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Username Github"
-              value={this.state.input.github}
-              onChangeText={text => this.changeInput(text, 'github')}
+              value={this.props.input.github}
+              onChangeText={text => this.props.onChange('github', text)}
             />
           </Item>
 
@@ -36,8 +36,8 @@ class SocialMedia extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Username Linkedin"
-              value={this.state.input.linkedin}
-              onChangeText={text => this.changeInput(text, 'linkedin')}
+              value={this.props.input.linkedin}
+              onChangeText={text => this.props.onChange('linkedin', text)}
             />
           </Item>
 
@@ -45,8 +45,8 @@ class SocialMedia extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Username Facebook"
-              value={this.state.input.facebook}
-              onChangeText={text => this.changeInput(text, 'facebook')}
+              value={this.props.input.facebook}
+              onChangeText={text => this.props.onChange('facebook', text)}
             />
           </Item>
 
@@ -54,8 +54,8 @@ class SocialMedia extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Username Instagram"
-              value={this.state.input.instagram}
-              onChangeText={text => this.changeInput(text, 'instagram')}
+              value={this.props.input.instagram}
+              onChangeText={text => this.props.onChange('instagram', text)}
             />
           </Item>
         </Content>

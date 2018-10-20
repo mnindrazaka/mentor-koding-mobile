@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
+import { AsyncStorage, ToastAndroid } from 'react-native'
 import { Content, Icon, Input, Button, Text, Container } from 'native-base'
 import Item from 'components/Item'
 import Logo from './Logo'
 import material from 'native-base-theme/variables/material'
-
-import { request as req } from 'graphql-request'
+import { user } from 'services'
 
 class Signin extends Component {
   state = {
@@ -14,13 +14,84 @@ class Signin extends Component {
     }
   }
 
+  componentDidMount() {
+    this.checkAuth()
+  }
+
+  checkAuth() {
+    AsyncStorage.getItem('token').then(value => {
+      if (value) {
+        this.props.navigation.navigate('Main')
+      }
+    })
+  }
+
   changeInput(value, name) {
     let input = this.state.input
     input[name] = value
     this.setState({ input })
   }
 
-  login() {}
+  clearInput() {
+    const { input } = this.state
+    input.password = ''
+    this.setState({ input })
+  }
+
+  login() {
+    const { username, password } = this.state.input
+    const query = `mutation {
+      login(username: "${username}", password: "${password}")
+    }`
+    user(query).then(data => {
+      if (this.isTokenValid(data.login)) {
+        this.saveToken(data.login)
+        this.setProfile()
+        this.checkAuth()
+      } else {
+        this.clearInput()
+        ToastAndroid.show(
+          'Login failed : wrong username or password',
+          ToastAndroid.LONG
+        )
+      }
+    })
+  }
+
+  isTokenValid(token) {
+    return token !== ''
+  }
+
+  saveToken(token) {
+    AsyncStorage.setItem('token', token)
+  }
+
+  setProfile() {
+    const query = `{
+      myProfile {
+        _id,
+        name,
+        profilePic,
+        email,
+        description,
+        address,
+        phone,
+        job,
+        isMentor,
+        socialMedia {
+          github,
+          linkedin,
+          facebook,
+          instagram
+        },
+        education,
+        skills
+      }
+    }`
+    user(query).then(data => {
+      AsyncStorage.setItem('profile', JSON.stringify(data.myProfile))
+    })
+  }
 
   render() {
     const { navigate } = this.props.navigation

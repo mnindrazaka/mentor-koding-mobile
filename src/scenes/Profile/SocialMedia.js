@@ -1,61 +1,39 @@
 import React, { Component } from 'react'
-import {
-  Content,
-  Text,
-  ListItem,
-  Left,
-  Icon,
-  Body,
-  Container
-} from 'native-base'
+import { Content, Container } from 'native-base'
 
+import ListIcon from './ListIcon'
 import styled from 'styled-components/native'
 
 class SocialMedia extends Component {
   render() {
+    const { profile } = this.props
     return (
       <Container marginTop={15}>
         <Title>Media Sosial</Title>
         <Content>
-          <ListItem icon marginBottom={15}>
-            <Left>
-              <Icon name={'github-circle'} />
-            </Left>
-            <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Github</Text>
-              <Text note>mnindrazaka</Text>
-            </Body>
-          </ListItem>
+          <ListIcon
+            text={profile.socialMedia.github}
+            label={'Github'}
+            icon={'github-circle'}
+          />
 
-          <ListItem icon marginBottom={15}>
-            <Left>
-              <Icon name={'linkedin-box'} />
-            </Left>
-            <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Linkedin</Text>
-              <Text note>mnindrazaka</Text>
-            </Body>
-          </ListItem>
+          <ListIcon
+            text={profile.socialMedia.linkedin}
+            label={'Linkedin'}
+            icon={'linkedin-box'}
+          />
 
-          <ListItem icon marginBottom={15}>
-            <Left>
-              <Icon name={'facebook-box'} />
-            </Left>
-            <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Facebook</Text>
-              <Text note>mnindrazaka</Text>
-            </Body>
-          </ListItem>
+          <ListIcon
+            text={profile.socialMedia.facebook}
+            label={'Facebook'}
+            icon={'facebook-box'}
+          />
 
-          <ListItem icon marginBottom={15}>
-            <Left>
-              <Icon name={'instagram'} />
-            </Left>
-            <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Instagram</Text>
-              <Text note>mnindrazaka</Text>
-            </Body>
-          </ListItem>
+          <ListIcon
+            text={profile.socialMedia.instagram}
+            label={'Instagram'}
+            icon={'instagram'}
+          />
         </Content>
       </Container>
     )
