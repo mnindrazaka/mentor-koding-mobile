@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import { AsyncStorage } from 'react-native'
+import { user } from 'services'
 import { Content, Input, Text, Button, Container } from 'native-base'
-
 import { Header, Item } from 'components'
 
 class Signup extends Component {
@@ -21,8 +22,78 @@ class Signup extends Component {
     this.setState({ input })
   }
 
+  register() {
+    const query = `mutation createUser(
+      $username: String!,
+      $name: String!,
+      $password: String!,
+      $address: String!,
+      $phone: String!
+    )  {
+      createUser(
+        user: {
+          username: $username,
+          name: $name,
+          password: $password,
+          address: $address,
+          phone: $phone     
+        }
+      ) {
+        _id,
+        name,
+        profilePic,
+        email,
+        description,
+        address,
+        phone,
+        job,
+        isMentor,
+        socialMedia {
+          github,
+          linkedin,
+          facebook,
+          instagram
+        },
+        education,
+        skills
+      } 
+    }`
+    user(query, this.state.input).then(data => {
+      AsyncStorage.setItem('profile', JSON.stringify(data.createUser))
+      this.login()
+    })
+  }
+
+  login() {
+    const { username, password } = this.state.input
+    const query = `mutation {
+      login(username: "${username}", password: "${password}")
+    }`
+    user(query).then(data => {
+      this.saveToken(data.login)
+      this.setSkills()
+    })
+  }
+
+  saveToken(token) {
+    AsyncStorage.setItem('token', token).then(() => {
+      this.props.navigation.navigate('Welcoming')
+    })
+  }
+
+  setSkills() {
+    const query = `{
+      skills {
+        id,
+        keyName
+      }
+    }`
+    user(query).then(data => {
+      AsyncStorage.setItem('skills', JSON.stringify(data.skills))
+    })
+  }
+
   render() {
-    const { navigate } = this.props.navigation
     return (
       <Container>
         <Header navigation={this.props.navigation} title={'Daftar'} />
@@ -85,11 +156,7 @@ class Signup extends Component {
             />
           </Item>
         </Content>
-        <Button
-          block
-          success
-          onPress={() => navigate('SignupCongratulation')}
-          borderRadius={0}>
+        <Button block success onPress={() => this.register()} borderRadius={0}>
           <Text>Daftar</Text>
         </Button>
       </Container>

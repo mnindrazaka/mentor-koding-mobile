@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { ToastAndroid, AsyncStorage } from 'react-native'
 import {
   Content,
   Input,
@@ -8,15 +9,27 @@ import {
   View,
   Icon
 } from 'native-base'
+import { user } from 'services'
 
 import styled from 'styled-components/native'
-
-import { Header, Item } from 'components'
+import { Header, InputAutocomplete } from 'components'
 
 class SignupSelectSkill extends Component {
   state = {
+    availableSkills: [],
     inputSkill: '',
-    skills: []
+    skills: [],
+    isMentor: false
+  }
+
+  componentDidMount() {
+    this.getSkills()
+  }
+
+  getSkills() {
+    AsyncStorage.getItem('skills').then(value => {
+      this.setState({ availableSkills: JSON.parse(value) })
+    })
   }
 
   changeInputSkill(text) {
@@ -27,15 +40,89 @@ class SignupSelectSkill extends Component {
     this.setState({ inputSkill: '' })
   }
 
-  addSkill() {
+  addSkill(skill) {
     let skills = this.state.skills
-    skills.push(this.state.inputSkill)
-    this.setState({ skills }, () => this.clearInputSkill())
+
+    if (this.isSkillValid(skill)) {
+      skills.push(skill)
+      this.setState({ skills })
+    } else {
+      ToastAndroid.show('Keahlian sudah ada', ToastAndroid.LONG)
+    }
   }
 
   removeSkill(skill) {
     let skills = this.state.skills.filter(item => item !== skill)
     this.setState({ skills })
+  }
+
+  isSkillValid(skill) {
+    return this.state.skills.indexOf(skill) === -1
+  }
+
+  getfilteredSkill() {
+    const skills = this.state.availableSkills
+      .filter(
+        item =>
+          this.isSkillMatchInput(item.keyName) &&
+          !this.isSkillAlreadyAdded(item.keyName)
+      )
+      .slice(0, 3)
+    return this.state.inputSkill === '' ? [] : skills
+  }
+
+  isSkillMatchInput(skill) {
+    return skill.toLowerCase().includes(this.state.inputSkill.toLowerCase())
+  }
+
+  isSkillAlreadyAdded(skill) {
+    return this.state.skills.indexOf(skill) > -1
+  }
+
+  submit() {
+    const query = `mutation updateUser(
+      $skills: [String]
+    )  {
+      updateUser(
+        user: {
+          skills: $skills
+        }
+      ) { _id } 
+    }`
+    user(query, this.state).then(data => {
+      this.setProfile()
+    })
+  }
+
+  setProfile() {
+    const query = `{
+      myProfile {
+        _id,
+        name,
+        profilePic,
+        email,
+        description,
+        address,
+        phone,
+        job,
+        isMentor,
+        socialMedia {
+          github,
+          linkedin,
+          facebook,
+          instagram
+        },
+        education,
+        skills
+      }
+    }`
+    user(query).then(data => {
+      AsyncStorage.setItem('profile', JSON.stringify(data.myProfile)).then(
+        () => {
+          this.props.navigation.navigate('Main')
+        }
+      )
+    })
   }
 
   renderItems() {
@@ -69,17 +156,16 @@ class SignupSelectSkill extends Component {
             </Text>
           </View>
 
-          <Item regular>
-            <Input
-              placeholder="Masukkan keahlian yang dikuasai"
-              value={this.state.inputSkill}
-              onChangeText={text => this.changeInputSkill(text)}
-            />
-          </Item>
-
-          <Button block onPress={() => this.addSkill()}>
-            <Text>Tambahkan Keahlian</Text>
-          </Button>
+          <InputAutocomplete
+            data={this.getfilteredSkill()}
+            placeholder="Masukkan keahlian yang dikuasai"
+            value={this.state.inputSkill}
+            onChangeText={text => this.changeInputSkill(text)}
+            onItemPress={item => {
+              this.addSkill(item.keyName)
+              this.clearInputSkill()
+            }}
+          />
         </View>
 
         <Content padder>{this.renderItems()}</Content>
@@ -90,7 +176,7 @@ class SignupSelectSkill extends Component {
             block
             flex={1}
             borderRadius={0}
-            onPress={() => navigate('Main')}>
+            onPress={() => this.submit()}>
             <Text>Simpan</Text>
           </Button>
 
