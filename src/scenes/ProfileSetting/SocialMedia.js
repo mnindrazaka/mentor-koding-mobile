@@ -4,21 +4,6 @@ import { Content, Container, Input } from 'native-base'
 import { Item, TextIcon } from 'components'
 
 class SocialMedia extends Component {
-  state = {
-    input: {
-      github: '',
-      linkedin: '',
-      facebook: '',
-      instagram: ''
-    }
-  }
-
-  changeInput(value, name) {
-    let input = this.state.input
-    input[name] = value
-    this.setState({ input })
-  }
-
   render() {
     return (
       <Container>
@@ -27,7 +12,7 @@ class SocialMedia extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Username Github"
-              value={this.props.input.github}
+              value={this.props.input.socialMedia.github}
               onChangeText={text => this.props.onChange('github', text)}
             />
           </Item>
@@ -36,7 +21,7 @@ class SocialMedia extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Username Linkedin"
-              value={this.props.input.linkedin}
+              value={this.props.input.socialMedia.linkedin}
               onChangeText={text => this.props.onChange('linkedin', text)}
             />
           </Item>
@@ -45,7 +30,7 @@ class SocialMedia extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Username Facebook"
-              value={this.props.input.facebook}
+              value={this.props.input.socialMedia.facebook}
               onChangeText={text => this.props.onChange('facebook', text)}
             />
           </Item>
@@ -54,7 +39,7 @@ class SocialMedia extends Component {
           <Item regular>
             <Input
               placeholder="Masukkan Username Instagram"
-              value={this.props.input.instagram}
+              value={this.props.input.socialMedia.instagram}
               onChangeText={text => this.props.onChange('instagram', text)}
             />
           </Item>

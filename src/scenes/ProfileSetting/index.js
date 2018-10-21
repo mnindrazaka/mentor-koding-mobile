@@ -52,8 +52,20 @@ class ProfileSettings extends Component {
 
   changeInput(name, value) {
     const { input } = this.state
-    input[name] = value
+
+    if (this.isSocialMediaInput(name)) input['socialMedia'][name] = value
+    else input[name] = value
+
     this.setState({ input })
+  }
+
+  isSocialMediaInput(name) {
+    return (
+      name === 'github' ||
+      name === 'linkedin' ||
+      name === 'facebook' ||
+      name === 'instagram'
+    )
   }
 
   addSkill(skill) {
@@ -101,7 +113,6 @@ class ProfileSettings extends Component {
     }`
     user(query, this.state.input).then(data => {
       this.setProfile()
-      this.props.navigation.navigate('Profile')
     })
   }
 
@@ -128,11 +139,16 @@ class ProfileSettings extends Component {
       }
     }`
     user(query).then(data => {
-      AsyncStorage.setItem('profile', JSON.stringify(data.myProfile))
+      AsyncStorage.setItem('profile', JSON.stringify(data.myProfile)).then(
+        () => {
+          this.props.navigation.navigate('Profile')
+        }
+      )
     })
   }
 
   render() {
+    console.log(this.state.input)
     return (
       <Container>
         <Header

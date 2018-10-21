@@ -11,13 +11,23 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.getProfile()
+    this.willFocusListener = this.props.navigation.addListener(
+      'willFocus',
+      () => {
+        console.log('will focus')
+        this.getProfile()
+      }
+    )
   }
 
   getProfile() {
     AsyncStorage.getItem('profile').then(value => {
       this.setState({ profile: JSON.parse(value) })
     })
+  }
+
+  componentWillUnmount() {
+    this.this.willFocusListener.remove()
   }
 
   render() {
