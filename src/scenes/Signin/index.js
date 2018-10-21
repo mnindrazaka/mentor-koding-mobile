@@ -47,6 +47,7 @@ class Signin extends Component {
       if (this.isTokenValid(data.login)) {
         this.saveToken(data.login)
         this.setProfile()
+        this.setSkills()
         this.checkAuth()
       } else {
         this.clearInput()
@@ -90,6 +91,18 @@ class Signin extends Component {
     }`
     user(query).then(data => {
       AsyncStorage.setItem('profile', JSON.stringify(data.myProfile))
+    })
+  }
+
+  setSkills() {
+    const query = `{
+      skills {
+        id,
+        keyName
+      }
+    }`
+    user(query).then(data => {
+      AsyncStorage.setItem('skills', JSON.stringify(data.skills))
     })
   }
 

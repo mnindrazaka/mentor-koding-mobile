@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { AsyncStorage, TouchableOpacity } from 'react-native'
 import {
   Content,
   Input,
@@ -10,11 +11,22 @@ import {
 } from 'native-base'
 
 import styled from 'styled-components/native'
-import Item from 'components/Item'
+import { Item, InputAutocomplete } from 'components'
 
 class Skill extends Component {
   state = {
+    availableSkills: [],
     inputSkill: ''
+  }
+
+  componentDidMount() {
+    this.getSkills()
+  }
+
+  getSkills() {
+    AsyncStorage.getItem('skills').then(value => {
+      this.setState({ availableSkills: JSON.parse(value) })
+    })
   }
 
   changeInputSkill(text) {
@@ -23,6 +35,25 @@ class Skill extends Component {
 
   clearInputSkill() {
     this.setState({ inputSkill: '' })
+  }
+
+  getfilteredSkill() {
+    const skills = this.state.availableSkills
+      .filter(
+        item =>
+          this.isSkillMatchInput(item.keyName) &&
+          !this.isSkillAlreadyAdded(item.keyName)
+      )
+      .slice(0, 3)
+    return this.state.inputSkill === '' ? [] : skills
+  }
+
+  isSkillMatchInput(skill) {
+    return skill.toLowerCase().includes(this.state.inputSkill.toLowerCase())
+  }
+
+  isSkillAlreadyAdded(skill) {
+    return this.props.skills.indexOf(skill) > -1
   }
 
   renderItems() {
@@ -46,33 +77,20 @@ class Skill extends Component {
   }
 
   render() {
+    console.log(this.state.availableSkills)
     return (
       <Container>
         <View padding={15}>
-          <View marginBottom={15}>
-            <Text>Pilih Keahlian Yang Anda Kuasai</Text>
-            <Text note>
-              Masukkan keahlian yang anda kuasai sehingga pengguna lain dapat
-              belajar kepada anda, lewati jika anda tidak ingin menjadi mentor
-            </Text>
-          </View>
-
-          <Item regular>
-            <Input
-              placeholder="Masukkan keahlian yang dikuasai"
-              value={this.state.inputSkill}
-              onChangeText={text => this.changeInputSkill(text)}
-            />
-          </Item>
-
-          <Button
-            block
-            onPress={() => {
-              this.props.onAddSkill(this.state.inputSkill)
+          <InputAutocomplete
+            data={this.getfilteredSkill()}
+            placeholder="Masukkan keahlian yang dikuasai"
+            value={this.state.inputSkill}
+            onChangeText={text => this.changeInputSkill(text)}
+            onItemPress={item => {
+              this.props.onAddSkill(item.keyName)
               this.clearInputSkill()
-            }}>
-            <Text>Tambahkan Keahlian</Text>
-          </Button>
+            }}
+          />
         </View>
 
         <Content padder>{this.renderItems()}</Content>
@@ -86,6 +104,15 @@ const Wrapper = styled.View`
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 15px;
+`
+
+const AutocompleteWrapper = styled.View`
+  flex: 1;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  position: absolute;
 `
 
 export default Skill

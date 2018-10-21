@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, ToastAndroid } from 'react-native'
 import { user } from 'services'
 import {
   Container,
@@ -70,11 +70,15 @@ class ProfileSettings extends Component {
 
   addSkill(skill) {
     let skills = this.state.input.skills
-    skills.push(skill)
 
-    let input = this.state.input
-    input.skills = skills
-    this.setState({ input })
+    if (this.isSkillValid(skill)) {
+      skills.push(skill)
+      let input = this.state.input
+      input.skills = skills
+      this.setState({ input })
+    } else {
+      ToastAndroid.show('Keahlian sudah ada', ToastAndroid.LONG)
+    }
   }
 
   removeSkill(skill) {
@@ -83,6 +87,10 @@ class ProfileSettings extends Component {
     let input = this.state.input
     input.skills = skills
     this.setState({ input })
+  }
+
+  isSkillValid(skill) {
+    return this.state.input.skills.indexOf(skill) === -1
   }
 
   submit() {
@@ -171,7 +179,7 @@ class ProfileSettings extends Component {
           <Tab
             heading={
               <TabHeading style={{ backgroundColor: material.brandPrimary }}>
-                <Text>Kemampuan</Text>
+                <Text>Keahlian</Text>
               </TabHeading>
             }>
             <Skill
