@@ -1,42 +1,54 @@
 import React, { Component } from 'react'
-import { Container, Content, Input, Icon, List } from 'native-base'
-import { Header, Item } from 'components'
+import { AsyncStorage } from 'react-native'
+import { user } from 'services'
+import { Container, Content, List } from 'native-base'
+import { Header, InputAutocomplete } from 'components'
 import ListItem from './ListItem'
 
 class SearchResult extends Component {
   state = {
-    searchText: '',
-    data: [
-      {
-        name: 'Nama Mentor',
-        headline: 'Frontend Developer at WRI',
-        imageURL:
-          'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
-      },
-      {
-        name: 'Nama Mentor',
-        headline: 'Frontend Developer at WRI',
-        imageURL:
-          'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
-      },
-      {
-        name: 'Nama Mentor',
-        headline: 'Frontend Developer at WRI',
-        imageURL:
-          'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
-      },
-      {
-        name: 'Nama Mentor',
-        headline: 'Frontend Developer at WRI',
-        imageURL:
-          'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
-      }
-    ]
+    availableSkills: [],
+    inputSkill: '',
+    result: []
   }
 
-  changeSearchText(text) {
-    this.setState({
-      searchText: text
+  componentDidMount() {
+    this.setResult(this.props.navigation.getParam('result'))
+    this.getSkills()
+  }
+
+  setResult(result) {
+    this.setState({ result })
+  }
+
+  getSkills() {
+    AsyncStorage.getItem('skills').then(value => {
+      this.setState({ availableSkills: JSON.parse(value) })
+    })
+  }
+
+  changeInputSkill(text) {
+    this.setState({ inputSkill: text })
+  }
+
+  clearInputSkill() {
+    this.setState({ inputSkill: '' })
+  }
+
+  getfilteredSkill() {
+    const skills = this.state.availableSkills
+      .filter(item => this.isSkillMatchInput(item.keyName))
+      .slice(0, 3)
+    return this.state.inputSkill === '' ? [] : skills
+  }
+
+  isSkillMatchInput(skill) {
+    return skill.toLowerCase().includes(this.state.inputSkill.toLowerCase())
+  }
+
+  search(skill) {
+    user.search({ skill }).then(data => {
+      this.setResult(data)
     })
   }
 
@@ -55,16 +67,20 @@ class SearchResult extends Component {
       <Container>
         <Header title={'Hasil Pencarian'} navigation={this.props.navigation} />
         <Content padder>
-          <Item regular>
-            <Icon name={'magnify'} />
-            <Input
-              placeholder={'Topik yang ingin dipelajari'}
-              value={this.state.searchText}
-              onChangeText={text => this.changeSearchText(text)}
-            />
-          </Item>
+          <InputAutocomplete
+            data={this.getfilteredSkill()}
+            placeholder="Topik yang ingin dipelajari"
+            value={this.state.inputSkill}
+            onChangeText={text => this.changeInputSkill(text)}
+            onItemPress={item => {
+              this.search(item.keyName)
+              this.clearInputSkill()
+            }}
+          />
+
           <List
-            dataArray={this.state.data}
+            style={{ marginTop: 15 }}
+            dataArray={this.state.result}
             renderRow={row => this.renderRow(row)}
           />
         </Content>

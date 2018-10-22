@@ -1,14 +1,6 @@
 import React, { Component } from 'react'
 import { ToastAndroid, AsyncStorage } from 'react-native'
-import {
-  Content,
-  Input,
-  Text,
-  Button,
-  Container,
-  View,
-  Icon
-} from 'native-base'
+import { Content, Text, Button, Container, View, Icon } from 'native-base'
 import { user } from 'services'
 
 import styled from 'styled-components/native'

@@ -149,9 +149,25 @@ const skills = () => {
   })
 }
 
+const search = input => {
+  return new Promise((resolve, reject) => {
+    const query = `query search ($skill: String) {
+      search(skill: $skill) {
+        name,
+        description,
+        profilePic
+      }
+    }`
+    user(query, input).then(data => {
+      resolve(data.search)
+    })
+  })
+}
+
 user.login = login
 user.create = createUser
 user.update = updateUser
 user.profile = myProfile
 user.skills = skills
+user.search = search
 export default user

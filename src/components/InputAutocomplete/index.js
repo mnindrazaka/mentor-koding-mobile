@@ -17,7 +17,6 @@ class InputAutocomplete extends Component {
   }
 
   render() {
-    console.log(this.props)
     return (
       <Fragment>
         <Item regular marginBottom={5}>

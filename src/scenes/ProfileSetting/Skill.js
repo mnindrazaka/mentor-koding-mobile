@@ -1,17 +1,9 @@
 import React, { Component } from 'react'
-import { AsyncStorage, TouchableOpacity } from 'react-native'
-import {
-  Content,
-  Input,
-  Text,
-  Button,
-  Container,
-  View,
-  Icon
-} from 'native-base'
+import { AsyncStorage } from 'react-native'
+import { Content, Text, Button, Container, View, Icon } from 'native-base'
 
 import styled from 'styled-components/native'
-import { Item, InputAutocomplete } from 'components'
+import { InputAutocomplete } from 'components'
 
 class Skill extends Component {
   state = {
@@ -104,15 +96,6 @@ const Wrapper = styled.View`
   padding: 15px;
   border-radius: 5px;
   margin-bottom: 15px;
-`
-
-const AutocompleteWrapper = styled.View`
-  flex: 1;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 1;
-  position: absolute;
 `
 
 export default Skill
