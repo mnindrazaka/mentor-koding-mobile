@@ -42,7 +42,6 @@ class SignupSelectSkill extends Component {
 
   addSkill(skill) {
     let skills = this.state.skills
-
     if (this.isSkillValid(skill)) {
       skills.push(skill)
       this.setState({ skills })
@@ -80,48 +79,16 @@ class SignupSelectSkill extends Component {
   }
 
   submit() {
-    const query = `mutation updateUser(
-      $skills: [String]
-    )  {
-      updateUser(
-        user: {
-          skills: $skills
-        }
-      ) { _id } 
-    }`
-    user(query, this.state).then(data => {
+    user.update(this.state).then(data => {
       this.setProfile()
     })
   }
 
   setProfile() {
-    const query = `{
-      myProfile {
-        _id,
-        name,
-        profilePic,
-        email,
-        description,
-        address,
-        phone,
-        job,
-        isMentor,
-        socialMedia {
-          github,
-          linkedin,
-          facebook,
-          instagram
-        },
-        education,
-        skills
-      }
-    }`
-    user(query).then(data => {
-      AsyncStorage.setItem('profile', JSON.stringify(data.myProfile)).then(
-        () => {
-          this.props.navigation.navigate('Main')
-        }
-      )
+    user.profile().then(data => {
+      AsyncStorage.setItem('profile', JSON.stringify(data)).then(() => {
+        this.props.navigation.navigate('Main')
+      })
     })
   }
 

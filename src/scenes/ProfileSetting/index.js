@@ -52,10 +52,8 @@ class ProfileSettings extends Component {
 
   changeInput(name, value) {
     const { input } = this.state
-
     if (this.isSocialMediaInput(name)) input['socialMedia'][name] = value
     else input[name] = value
-
     this.setState({ input })
   }
 
@@ -70,7 +68,6 @@ class ProfileSettings extends Component {
 
   addSkill(skill) {
     let skills = this.state.input.skills
-
     if (this.isSkillValid(skill)) {
       skills.push(skill)
       let input = this.state.input
@@ -83,7 +80,6 @@ class ProfileSettings extends Component {
 
   removeSkill(skill) {
     let skills = this.state.input.skills.filter(item => item !== skill)
-
     let input = this.state.input
     input.skills = skills
     this.setState({ input })
@@ -94,69 +90,20 @@ class ProfileSettings extends Component {
   }
 
   submit() {
-    const query = `mutation updateUser(
-      $name: String,
-      $address: String,
-      $phone: String,
-      $education: String,
-      $job: String,
-      $description: String,
-      $isMentor: Boolean,
-      $skills: [String],
-      $socialMedia: SocialMediaInput
-    )  {
-      updateUser(
-        user: {
-          name: $name,     
-          address: $address,     
-          phone: $phone,     
-          education: $education,     
-          job: $job,     
-          description: $description,     
-          isMentor: $isMentor,
-          skills: $skills,
-          socialMedia: $socialMedia
-        }
-      ) { _id } 
-    }`
-    user(query, this.state.input).then(data => {
+    user.update(this.state.input).then(data => {
       this.setProfile()
     })
   }
 
   setProfile() {
-    const query = `{
-      myProfile {
-        _id,
-        name,
-        profilePic,
-        email,
-        description,
-        address,
-        phone,
-        job,
-        isMentor,
-        socialMedia {
-          github,
-          linkedin,
-          facebook,
-          instagram
-        },
-        education,
-        skills
-      }
-    }`
-    user(query).then(data => {
-      AsyncStorage.setItem('profile', JSON.stringify(data.myProfile)).then(
-        () => {
-          this.props.navigation.navigate('Profile')
-        }
-      )
+    user.profile().then(data => {
+      AsyncStorage.setItem('profile', JSON.stringify(data)).then(() => {
+        this.props.navigation.navigate('Profile')
+      })
     })
   }
 
   render() {
-    console.log(this.state.input)
     return (
       <Container>
         <Header

@@ -23,73 +23,22 @@ class Signup extends Component {
   }
 
   register() {
-    const query = `mutation createUser(
-      $username: String!,
-      $name: String!,
-      $password: String!,
-      $address: String!,
-      $phone: String!
-    )  {
-      createUser(
-        user: {
-          username: $username,
-          name: $name,
-          password: $password,
-          address: $address,
-          phone: $phone     
-        }
-      ) {
-        _id,
-        name,
-        profilePic,
-        email,
-        description,
-        address,
-        phone,
-        job,
-        isMentor,
-        socialMedia {
-          github,
-          linkedin,
-          facebook,
-          instagram
-        },
-        education,
-        skills
-      } 
-    }`
-    user(query, this.state.input).then(data => {
-      AsyncStorage.setItem('profile', JSON.stringify(data.createUser))
+    user.create(this.state.input).then(data => {
+      AsyncStorage.setItem('profile', JSON.stringify(data))
       this.login()
     })
   }
 
   login() {
     const { username, password } = this.state.input
-    const query = `mutation {
-      login(username: "${username}", password: "${password}")
-    }`
-    user(query).then(data => {
-      this.saveToken(data.login)
-      this.setSkills()
+    user.login({ username, password }).then(data => {
+      this.saveToken(data)
     })
   }
 
   saveToken(token) {
     AsyncStorage.setItem('token', token).then(() => {
       this.props.navigation.navigate('Welcoming')
-    })
-  }
-
-  setSkills() {
-    const query = `{
-      skills {
-        id,
-        keyName
-      }
-    }`
-    user(query).then(data => {
-      AsyncStorage.setItem('skills', JSON.stringify(data.skills))
     })
   }
 
