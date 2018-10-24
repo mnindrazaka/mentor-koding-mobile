@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { AsyncStorage } from 'react-native'
 import { Container } from 'native-base'
 
 import Identity from './Identity'
@@ -11,28 +10,20 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.willFocusListener = this.props.navigation.addListener(
-      'willFocus',
-      () => {
-        this.getProfile()
-      }
-    )
+    this.getProfile()
   }
 
   getProfile() {
-    AsyncStorage.getItem('profile').then(value => {
-      this.setState({ profile: JSON.parse(value) })
-    })
-  }
-
-  componentWillUnmount() {
-    this.willFocusListener.remove()
+    this.setState({ profile: this.props.navigation.getParam('profile') })
   }
 
   render() {
     return (
       <Container>
-        <Identity profile={this.state.profile} />
+        <Identity
+          profile={this.state.profile}
+          navigation={this.props.navigation}
+        />
         <Tabs navigation={this.props.navigation} profile={this.state.profile} />
       </Container>
     )

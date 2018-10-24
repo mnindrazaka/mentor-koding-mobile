@@ -5,13 +5,13 @@ import PropTypes from 'prop-types'
 class CustomListItem extends Component {
   render() {
     return (
-      <ListItem button thumbnail onPress={() => alert('goto mentor profile')}>
+      <ListItem button thumbnail onPress={() => this.props.onPress()}>
         <Left>
-          <Thumbnail source={{ uri: this.props.imageURL }} />
+          <Thumbnail source={{ uri: this.props.profilePic }} />
         </Left>
         <Body>
           <Text>{this.props.name}</Text>
-          <Text note>{this.props.headline}</Text>
+          <Text note>{this.props.description}</Text>
         </Body>
       </ListItem>
     )
@@ -20,8 +20,8 @@ class CustomListItem extends Component {
 
 CustomListItem.propTypes = {
   name: PropTypes.string.isRequired,
-  headline: PropTypes.string.isRequired,
-  imageURL: PropTypes.string.isRequired
+  description: PropTypes.string.isRequired,
+  profilePic: PropTypes.string.isRequired
 }
 
 export default CustomListItem

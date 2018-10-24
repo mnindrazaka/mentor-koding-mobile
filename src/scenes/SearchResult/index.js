@@ -56,8 +56,11 @@ class SearchResult extends Component {
     return (
       <ListItem
         name={row.name}
-        headline={row.headline}
-        imageURL={row.imageURL}
+        description={row.description}
+        profilePic={row.profilePic}
+        onPress={() => {
+          this.props.navigation.navigate('SearchDetail', { profile: row })
+        }}
       />
     )
   }

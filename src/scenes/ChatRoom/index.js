@@ -10,8 +10,7 @@ class ChatRoom extends Component {
     messageInput: '',
     messages: [
       {
-        message:
-          'lorem ipsum dolor sit amet proteus dolor ima tokino tameni, sasageyo sasageyo',
+        message: 'Halo Apa Kabar',
         time: '3:43 AM',
         mine: false
       }
@@ -48,13 +47,20 @@ class ChatRoom extends Component {
   }
 
   render() {
+    const user = this.props.navigation.getParam('profile')
     return (
       <Container>
         <Header
-          title={'Nama Mentor'}
+          title={user.name}
           navigation={this.props.navigation}
           rightComponent={
-            <Button transparent>
+            <Button
+              transparent
+              onPress={() =>
+                this.props.navigation.navigate('SearchDetail', {
+                  profile: user
+                })
+              }>
               <Icon name={'account'} />
             </Button>
           }

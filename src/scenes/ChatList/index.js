@@ -7,28 +7,14 @@ class ChatList extends Component {
   state = {
     data: [
       {
-        name: 'Nama Mentor',
+        name: 'Zaka',
         message: 'Lorem ipsum dolor sit amet',
         time: '3:43 PM',
         imageURL:
           'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
       },
       {
-        name: 'Nama Mentor',
-        message: 'Lorem ipsum dolor sit amet',
-        time: '3:43 PM',
-        imageURL:
-          'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
-      },
-      {
-        name: 'Nama Mentor',
-        message: 'Lorem ipsum dolor sit amet',
-        time: '3:43 PM',
-        imageURL:
-          'https://content-static.upwork.com/uploads/2014/10/01073427/profilephoto1.jpg'
-      },
-      {
-        name: 'Nama Mentor',
+        name: 'Daffa',
         message: 'Lorem ipsum dolor sit amet',
         time: '3:43 PM',
         imageURL:
@@ -45,7 +31,7 @@ class ChatList extends Component {
         message={row.message}
         time={row.time}
         imageURL={row.imageURL}
-        onPress={() => navigate('ChatRoom')}
+        onPress={() => navigate('ChatRoom', { profile: { name: row.name } })}
       />
     )
   }

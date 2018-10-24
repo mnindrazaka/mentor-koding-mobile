@@ -153,9 +153,23 @@ const search = input => {
   return new Promise((resolve, reject) => {
     const query = `query search ($skill: String) {
       search(skill: $skill) {
+        _id,
         name,
+        profilePic,
+        email,
         description,
-        profilePic
+        address,
+        phone,
+        job,
+        isMentor,
+        socialMedia {
+          github,
+          linkedin,
+          facebook,
+          instagram
+        },
+        education,
+        skills
       }
     }`
     user(query, input).then(data => {
