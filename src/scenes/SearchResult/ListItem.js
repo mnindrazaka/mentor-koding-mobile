@@ -20,8 +20,8 @@ class CustomListItem extends Component {
 
 CustomListItem.propTypes = {
   name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  profilePic: PropTypes.string.isRequired
+  description: PropTypes.string,
+  profilePic: PropTypes.string
 }
 
 export default CustomListItem

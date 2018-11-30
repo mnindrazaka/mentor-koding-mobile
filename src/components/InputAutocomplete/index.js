@@ -1,19 +1,16 @@
 import React, { Component, Fragment } from 'react'
-import { View, Input, List, ListItem, Text } from 'native-base'
+import { Input, List, ListItem, Text } from 'native-base'
 import { Item } from 'components'
 
 import styled from 'styled-components/native'
 
 class InputAutocomplete extends Component {
-  renderItems() {
-    return this.props.data.map(item => (
-      <ListItem
-        key={item.id}
-        button
-        onPress={() => this.props.onItemPress(item)}>
-        <Text>{item.keyName}</Text>
+  renderRow(row) {
+    return (
+      <ListItem key={row.id} button onPress={() => this.props.onItemPress(row)}>
+        <Text>{row.keyName}</Text>
       </ListItem>
-    ))
+    )
   }
 
   render() {
@@ -26,12 +23,17 @@ class InputAutocomplete extends Component {
             onChangeText={text => this.props.onChangeText(text)}
           />
         </Item>
-        <Suggestion>{this.renderItems()}</Suggestion>
+        <Suggestion
+          dataArray={this.props.data}
+          renderRow={row => this.renderRow(row)}
+        />
       </Fragment>
     )
   }
 }
 
-const Suggestion = styled(List)``
+const Suggestion = styled(List)`
+  border: ${props => (props.dataArray.length ? '#afafaf' : 'transparent')};
+`
 
 export default InputAutocomplete

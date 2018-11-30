@@ -12,8 +12,21 @@ class MeetupCreate extends Component {
       mentorId: '',
       date: '',
       time: '',
-      detailPlace: ''
+      detailPlace: '',
+      lat: 0,
+      lng: 0
     }
+  }
+
+  componentDidMount() {
+    this.setMentorId()
+  }
+
+  setMentorId() {
+    const mentor = this.props.navigation.getParam('profile')
+    const { input } = this.state
+    input.mentorId = mentor._id
+    this.setState({ input })
   }
 
   changeInput(value, name) {
@@ -28,7 +41,7 @@ class MeetupCreate extends Component {
     })
 
     if (action !== DatePickerAndroid.dismissedAction) {
-      this.changeInput(`${day}-${month}-${year}`, 'date')
+      this.changeInput(`${year}/${month}/${day}`, 'date')
     }
   }
 
@@ -49,7 +62,7 @@ class MeetupCreate extends Component {
   }
 
   render() {
-    const { navigate } = this.props.navigation
+    console.log(this.state)
     const mentor = this.props.navigation.getParam('profile')
     return (
       <Container>

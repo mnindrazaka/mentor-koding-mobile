@@ -1,59 +1,71 @@
 import React, { Component } from 'react'
+import { AsyncStorage } from 'react-native'
 import { Container, Content, List } from 'native-base'
 
 import ListItem from './ListItem'
 
 class Remaining extends Component {
   state = {
+    profile: {},
     data: [
       {
-        title: 'Async menggunakan nodejs',
-        location: 'Polinema',
-        date: '02 September 2018',
-        isMentor: true
+        topic: 'Async menggunakan nodejs',
+        detailPlace: 'Polinema',
+        date: '20181031',
+        mentor: {
+          _id: '5bc739af923a07278c691892'
+        },
+        student: {
+          _id: 'rtfghyu35678ghjrtytyg25h'
+        }
       },
       {
-        title: 'Topik Meetup',
-        location: 'Polinema',
-        date: '02 September 2018',
-        isMentor: false
-      },
-      {
-        title: 'Topik Meetup',
-        location: 'Polinema',
-        date: '02 September 2018',
-        isMentor: false
-      },
-      {
-        title: 'Topik Meetup',
-        location: 'Polinema',
-        date: '02 September 2018',
-        isMentor: true
+        topic: 'Belajar Angular',
+        detailPlace: 'Polinema',
+        date: '20181030',
+        mentor: {
+          _id: 'rtfghyu35678ghjrtytyg25h'
+        },
+        student: {
+          _id: '5bc739af923a07278c691892'
+        }
       }
     ]
   }
 
-  renderRow(row) {
+  componentDidMount() {
+    this.getProfile()
+  }
+
+  getProfile() {
+    AsyncStorage.getItem('profile').then(data => {
+      this.setState({ profile: JSON.parse(data) })
+    })
+  }
+
+  isMentor(id) {
+    return this.state.profile._id == id
+  }
+
+  renderRows() {
     const { navigate } = this.props.navigation
-    return (
+    return this.state.data.map((row, index) => (
       <ListItem
-        title={row.title}
-        location={row.location}
+        key={index}
+        topic={row.topic}
+        detailPlace={row.detailPlace}
         date={row.date}
-        isMentor={row.isMentor}
+        isMentor={this.isMentor(row.mentor._id)}
         onPress={() => navigate('MeetupDetail')}
       />
-    )
+    ))
   }
 
   render() {
     return (
       <Container style={{ flex: 2 }}>
         <Content padder>
-          <List
-            dataArray={this.state.data}
-            renderRow={row => this.renderRow(row)}
-          />
+          <List>{this.renderRows()}</List>
         </Content>
       </Container>
     )

@@ -4,7 +4,15 @@ import { Content, Icon, Input, Button, Text, Container } from 'native-base'
 import Item from 'components/Item'
 import Logo from './Logo'
 import material from 'native-base-theme/variables/material'
-import { user } from 'services'
+
+import { ApolloConsumer } from 'react-apollo'
+import { gql } from 'apollo-boost'
+
+const LOGIN_QUERY = gql`
+  query loginQuery($username: String!, $password: String!) {
+    login(username: $username, password: $password)
+  }
+`
 
 class Signin extends Component {
   state = {
@@ -20,14 +28,12 @@ class Signin extends Component {
 
   checkAuth() {
     AsyncStorage.getItem('token').then(value => {
-      if (value) {
-        this.props.navigation.navigate('Main')
-      }
+      if (value) this.props.navigation.navigate('Main')
     })
   }
 
   changeInput(value, name) {
-    let input = this.state.input
+    const { input } = this.state
     input[name] = value
     this.setState({ input })
   }
@@ -38,20 +44,20 @@ class Signin extends Component {
     this.setState({ input })
   }
 
-  login() {
-    user.login(this.state.input).then(data => {
-      if (this.isTokenValid(data)) {
-        this.saveToken(data)
-        this.setProfile()
-        this.checkAuth()
-      } else {
-        this.clearInput()
-        ToastAndroid.show(
-          'Login failed : wrong username or password',
-          ToastAndroid.LONG
-        )
-      }
+  async login(client) {
+    const { username, password } = this.state.input
+    const { data } = await client.query({
+      query: LOGIN_QUERY,
+      variables: { username, password }
     })
+
+    if (this.isTokenValid(data)) {
+      this.saveToken(data)
+      this.checkAuth()
+    } else {
+      this.clearInput()
+      ToastAndroid.show('Login failed', ToastAndroid.SHORT)
+    }
   }
 
   isTokenValid(token) {
@@ -62,47 +68,48 @@ class Signin extends Component {
     AsyncStorage.setItem('token', token)
   }
 
-  setProfile() {
-    user.profile().then(data => {
-      AsyncStorage.setItem('profile', JSON.stringify(data))
-    })
-  }
-
   render() {
     const { navigate } = this.props.navigation
     return (
-      <Container>
-        <Content padder justifyContent={'center'}>
-          <Logo />
+      <ApolloConsumer>
+        {client => (
+          <Container>
+            <Content padder justifyContent={'center'}>
+              <Logo />
 
-          <Item regular>
-            <Icon name="account" style={{ color: material.brandPrimary }} />
-            <Input
-              placeholder="Nama Pengguna"
-              value={this.state.input.username}
-              onChangeText={text => this.changeInput(text, 'username')}
-            />
-          </Item>
+              <Item regular>
+                <Icon name='account' style={{ color: material.brandPrimary }} />
+                <Input
+                  placeholder='Nama Pengguna'
+                  value={this.state.input.username}
+                  onChangeText={text => this.changeInput(text, 'username')}
+                />
+              </Item>
 
-          <Item regular>
-            <Icon name="lock" style={{ color: material.brandPrimary }} />
-            <Input
-              placeholder="Kata Sandi"
-              value={this.state.input.password}
-              onChangeText={text => this.changeInput(text, 'password')}
-              secureTextEntry
-            />
-          </Item>
+              <Item regular>
+                <Icon name='lock' style={{ color: material.brandPrimary }} />
+                <Input
+                  placeholder='Kata Sandi'
+                  value={this.state.input.password}
+                  onChangeText={text => this.changeInput(text, 'password')}
+                  secureTextEntry
+                />
+              </Item>
 
-          <Button block marginBottom={15} onPress={() => this.login()}>
-            <Text>Masuk</Text>
-          </Button>
+              <Button
+                block
+                marginBottom={15}
+                onPress={() => this.login(client)}>
+                <Text>Masuk</Text>
+              </Button>
 
-          <Button block bordered onPress={() => navigate('Signup')}>
-            <Text>Daftar</Text>
-          </Button>
-        </Content>
-      </Container>
+              <Button block bordered onPress={() => navigate('Signup')}>
+                <Text>Daftar</Text>
+              </Button>
+            </Content>
+          </Container>
+        )}
+      </ApolloConsumer>
     )
   }
 }

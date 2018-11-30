@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Text, H3, H2 } from 'native-base'
+import { Text, H2 } from 'native-base'
 import { TextIcon } from 'components'
+import Moment from 'react-moment'
 
 import styled from 'styled-components/native'
 
@@ -25,15 +26,22 @@ class CustomListItem extends Component {
     return (
       <Container onPress={() => this.props.onPress()}>
         <DateContainer>
-          <H2>5</H2>
-          <Text>September</Text>
-          <Text>2018</Text>
+          <Moment format="DD" element={H2}>
+            {this.props.date}
+          </Moment>
+
+          <Moment format="MMM" element={Text}>
+            {this.props.date}
+          </Moment>
+          <Moment format="YYYY" element={Text}>
+            {this.props.date}
+          </Moment>
         </DateContainer>
 
         <MeetupContainer>
-          <Title>{this.props.title}</Title>
+          <Title>{this.props.topic}</Title>
           <TextIcon
-            text={this.props.location}
+            text={this.props.detailPlace}
             icon={'map-marker'}
             color={'#656565'}
           />
@@ -71,8 +79,8 @@ const Title = styled.Text`
 `
 
 CustomListItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
+  topic: PropTypes.string.isRequired,
+  detailPlace: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   isMentor: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired

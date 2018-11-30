@@ -25,10 +25,6 @@ class Search extends Component {
     this.setState({ inputSkill: text })
   }
 
-  clearInputSkill() {
-    this.setState({ inputSkill: '' })
-  }
-
   getfilteredSkill() {
     const skills = this.state.availableSkills
       .filter(item => this.isSkillMatchInput(item.keyName))
@@ -64,10 +60,7 @@ class Search extends Component {
             placeholder="Topik yang ingin dipelajari"
             value={this.state.inputSkill}
             onChangeText={text => this.changeInputSkill(text)}
-            onItemPress={item => {
-              this.search(item.keyName)
-              this.clearInputSkill()
-            }}
+            onItemPress={item => this.search(item.keyName)}
           />
         </Content>
       </Container>
