@@ -6,13 +6,7 @@ import Logo from './Logo'
 import material from 'native-base-theme/variables/material'
 
 import { ApolloConsumer } from 'react-apollo'
-import { gql } from 'apollo-boost'
-
-const LOGIN_QUERY = gql`
-  query loginQuery($username: String!, $password: String!) {
-    login(username: $username, password: $password)
-  }
-`
+import { loginQuery } from 'services/graphql'
 
 class Signin extends Component {
   state = {
@@ -47,7 +41,7 @@ class Signin extends Component {
   async login(client) {
     const { username, password } = this.state.input
     const { data } = await client.query({
-      query: LOGIN_QUERY,
+      query: loginQuery,
       variables: { username, password }
     })
 
