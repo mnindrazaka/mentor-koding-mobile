@@ -12,6 +12,7 @@ class Setting extends Component {
 
   render() {
     const { navigate } = this.props.navigation
+    const { profile } = this.props
     return (
       <Container marginTop={15}>
         <Title>Pengaturan</Title>
@@ -19,7 +20,7 @@ class Setting extends Component {
           <Button
             block
             marginBottom={15}
-            onPress={() => navigate('ProfileSetting')}>
+            onPress={() => navigate('ProfileSetting', { profile })}>
             <Text>Pengaturan Profil</Text>
           </Button>
 

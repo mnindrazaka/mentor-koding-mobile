@@ -1,40 +1,23 @@
 import React, { Component } from 'react'
-import { AsyncStorage } from 'react-native'
 import { Container } from 'native-base'
 
 import Identity from './Identity'
 import Tabs from './Tabs'
 
+import { Query } from 'react-apollo'
+import { profileQuery } from '../../services/graphql'
+
 class Profile extends Component {
-  state = {
-    profile: {}
-  }
-
-  componentDidMount() {
-    this.willFocusListener = this.props.navigation.addListener(
-      'willFocus',
-      () => {
-        this.getProfile()
-      }
-    )
-  }
-
-  getProfile() {
-    AsyncStorage.getItem('profile').then(value => {
-      this.setState({ profile: JSON.parse(value) })
-    })
-  }
-
-  componentWillUnmount() {
-    this.willFocusListener.remove()
-  }
-
   render() {
     return (
-      <Container>
-        <Identity profile={this.state.profile} />
-        <Tabs navigation={this.props.navigation} profile={this.state.profile} />
-      </Container>
+      <Query query={profileQuery}>
+        {({ loading, error, data }) => (
+          <Container>
+            <Identity profile={data.profile} />
+            <Tabs navigation={this.props.navigation} profile={data.profile} />
+          </Container>
+        )}
+      </Query>
     )
   }
 }

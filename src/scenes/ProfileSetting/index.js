@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AsyncStorage, ToastAndroid } from 'react-native'
+import { ToastAndroid } from 'react-native'
 import { user } from 'services'
 import {
   Container,
@@ -19,35 +19,12 @@ import Skill from './Skill'
 import MentorSetting from './MentorSetting'
 import SocialMedia from './SocialMedia'
 
+import { ApolloConsumer } from 'react-apollo'
+import { updateUserMutation } from '../../services/graphql'
+
 class ProfileSettings extends Component {
   state = {
-    input: {
-      name: '',
-      address: '',
-      phone: '',
-      education: '',
-      job: '',
-      description: '',
-      isMentor: false,
-      skills: [],
-      socialMedia: {
-        github: '',
-        linkedin: '',
-        facebook: '',
-        instagram: ''
-      }
-    }
-  }
-
-  componentDidMount() {
-    this.getProfile()
-  }
-
-  getProfile() {
-    AsyncStorage.getItem('profile').then(value => {
-      const profile = JSON.parse(value)
-      this.setState({ input: { ...profile } })
-    })
+    input: this.props.navigation.getParam('profile')
   }
 
   changeInput(name, value) {
@@ -89,80 +66,91 @@ class ProfileSettings extends Component {
     return this.state.input.skills.indexOf(skill) === -1
   }
 
-  submit() {
-    user.update(this.state.input).then(data => {
-      this.setProfile()
-    })
-  }
-
-  setProfile() {
-    user.profile().then(data => {
-      AsyncStorage.setItem('profile', JSON.stringify(data)).then(() => {
+  submit(client) {
+    client
+      .mutate({
+        mutation: updateUserMutation,
+        variables: this.state.input
+      })
+      .then(() => {
         this.props.navigation.navigate('Profile')
       })
-    })
   }
 
   render() {
     return (
-      <Container>
-        <Header
-          title={'Pengaturan Profil'}
-          navigation={this.props.navigation}
-        />
+      <ApolloConsumer>
+        {client => (
+          <Container>
+            <Header
+              title={'Pengaturan Profil'}
+              navigation={this.props.navigation}
+            />
 
-        <Tabs renderTabBar={() => <ScrollableTab />} style={{ marginTop: -15 }}>
-          <Tab
-            heading={
-              <TabHeading style={{ backgroundColor: material.brandPrimary }}>
-                <Text>Informasi Profil</Text>
-              </TabHeading>
-            }>
-            <ProfileInfo
-              input={this.state.input}
-              onChange={(name, value) => this.changeInput(name, value)}
-            />
-          </Tab>
-          <Tab
-            heading={
-              <TabHeading style={{ backgroundColor: material.brandPrimary }}>
-                <Text>Keahlian</Text>
-              </TabHeading>
-            }>
-            <Skill
-              skills={this.state.input.skills}
-              onAddSkill={skill => this.addSkill(skill)}
-              onRemoveSkill={skill => this.removeSkill(skill)}
-            />
-          </Tab>
-          <Tab
-            heading={
-              <TabHeading style={{ backgroundColor: material.brandPrimary }}>
-                <Text>Pengaturan Mentor</Text>
-              </TabHeading>
-            }>
-            <MentorSetting
-              input={this.state.input}
-              onChange={(name, value) => this.changeInput(name, value)}
-            />
-          </Tab>
-          <Tab
-            heading={
-              <TabHeading style={{ backgroundColor: material.brandPrimary }}>
-                <Text>Media Sosial</Text>
-              </TabHeading>
-            }>
-            <SocialMedia
-              input={this.state.input}
-              onChange={(name, value) => this.changeInput(name, value)}
-            />
-          </Tab>
-        </Tabs>
+            <Tabs
+              renderTabBar={() => <ScrollableTab />}
+              style={{ marginTop: -15 }}>
+              <Tab
+                heading={
+                  <TabHeading
+                    style={{ backgroundColor: material.brandPrimary }}>
+                    <Text>Informasi Profil</Text>
+                  </TabHeading>
+                }>
+                <ProfileInfo
+                  input={this.state.input}
+                  onChange={(name, value) => this.changeInput(name, value)}
+                />
+              </Tab>
+              <Tab
+                heading={
+                  <TabHeading
+                    style={{ backgroundColor: material.brandPrimary }}>
+                    <Text>Keahlian</Text>
+                  </TabHeading>
+                }>
+                <Skill
+                  skills={this.state.input.skills}
+                  onAddSkill={skill => this.addSkill(skill)}
+                  onRemoveSkill={skill => this.removeSkill(skill)}
+                />
+              </Tab>
+              <Tab
+                heading={
+                  <TabHeading
+                    style={{ backgroundColor: material.brandPrimary }}>
+                    <Text>Pengaturan Mentor</Text>
+                  </TabHeading>
+                }>
+                <MentorSetting
+                  input={this.state.input}
+                  onChange={(name, value) => this.changeInput(name, value)}
+                />
+              </Tab>
+              <Tab
+                heading={
+                  <TabHeading
+                    style={{ backgroundColor: material.brandPrimary }}>
+                    <Text>Media Sosial</Text>
+                  </TabHeading>
+                }>
+                <SocialMedia
+                  input={this.state.input}
+                  onChange={(name, value) => this.changeInput(name, value)}
+                />
+              </Tab>
+            </Tabs>
 
-        <Button block success borderRadius={0} onPress={() => this.submit()}>
-          <Text>Simpan</Text>
-        </Button>
-      </Container>
+            <Button
+              block
+              success
+              borderRadius={0}
+              onPress={() => this.submit(client)}>
+              <Text>Simpan</Text>
+            </Button>
+          </Container>
+        )}
+      </ApolloConsumer>
     )
   }
 }

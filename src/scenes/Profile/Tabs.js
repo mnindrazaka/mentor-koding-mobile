@@ -61,7 +61,10 @@ class CustomTabs extends Component {
                   <Icon name={'settings-outline'} style={{ color: '#555' }} />
                 </TabHeading>
               }>
-              <Setting navigation={this.props.navigation} />
+              <Setting
+                navigation={this.props.navigation}
+                profile={this.props.profile}
+              />
             </Tab>
           </Tabs>
         </TabWrapper>
