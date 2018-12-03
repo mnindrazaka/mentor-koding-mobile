@@ -18,6 +18,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const authLink = setContext(async () => {
   const token = await AsyncStorage.getItem('token')
+  console.log(token)
   return {
     headers: token ? { authorization: `Bearer ${token}` } : {}
   }

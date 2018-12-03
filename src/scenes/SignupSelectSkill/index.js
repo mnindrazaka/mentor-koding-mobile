@@ -1,27 +1,17 @@
 import React, { Component } from 'react'
-import { ToastAndroid, AsyncStorage } from 'react-native'
+import { ToastAndroid } from 'react-native'
 import { Content, Text, Button, Container, View, Icon } from 'native-base'
-import { user } from 'services'
 
 import styled from 'styled-components/native'
 import { Header, InputAutocomplete } from 'components'
 
+import { Query, ApolloConsumer } from 'react-apollo'
+import { skillsQuery, updateUserMutation } from '../../services/graphql'
+
 class SignupSelectSkill extends Component {
   state = {
-    availableSkills: [],
     inputSkill: '',
-    skills: [],
-    isMentor: false
-  }
-
-  componentDidMount() {
-    this.getSkills()
-  }
-
-  getSkills() {
-    AsyncStorage.getItem('skills').then(value => {
-      this.setState({ availableSkills: JSON.parse(value) })
-    })
+    skills: []
   }
 
   changeInputSkill(text) {
@@ -51,12 +41,11 @@ class SignupSelectSkill extends Component {
     return this.state.skills.indexOf(skill) === -1
   }
 
-  getfilteredSkill() {
-    const skills = this.state.availableSkills
+  getfilteredSkill(availableSkills) {
+    const skills = availableSkills
       .filter(
-        item =>
-          this.isSkillMatchInput(item.keyName) &&
-          !this.isSkillAlreadyAdded(item.keyName)
+        skill =>
+          this.isSkillMatchInput(skill) && !this.isSkillAlreadyAdded(skill)
       )
       .slice(0, 3)
     return this.state.inputSkill === '' ? [] : skills
@@ -70,18 +59,13 @@ class SignupSelectSkill extends Component {
     return this.state.skills.indexOf(skill) > -1
   }
 
-  submit() {
-    user.update(this.state).then(data => {
-      this.setProfile()
-    })
-  }
-
-  setProfile() {
-    user.profile().then(data => {
-      AsyncStorage.setItem('profile', JSON.stringify(data)).then(() => {
-        this.props.navigation.navigate('Main')
-      })
-    })
+  submit(client) {
+    let user = this.state
+    user.isMentor = user.skills.length > 0
+    delete user.inputSkill
+    client
+      .mutate({ mutation: updateUserMutation, variables: { user } })
+      .then(() => this.props.navigation.navigate('Main'))
   }
 
   renderItems() {
@@ -103,53 +87,68 @@ class SignupSelectSkill extends Component {
   render() {
     const { navigate } = this.props.navigation
     return (
-      <Container>
-        <Header navigation={this.props.navigation} title={'Keahlian Anda'} />
+      <Query query={skillsQuery}>
+        {({ loading, error, data }) => {
+          if (loading) return null
+          return (
+            <Container>
+              <Header
+                navigation={this.props.navigation}
+                title={'Keahlian Anda'}
+              />
 
-        <View padding={15}>
-          <View marginBottom={15}>
-            <Text>Pilih Keahlian Yang Anda Kuasai</Text>
-            <Text note>
-              Masukkan keahlian yang anda kuasai sehingga pengguna lain dapat
-              belajar kepada anda, lewati jika anda tidak ingin menjadi mentor
-            </Text>
-          </View>
+              <View padding={15}>
+                <View marginBottom={15}>
+                  <Text>Pilih Keahlian Yang Anda Kuasai</Text>
+                  <Text note>
+                    Masukkan keahlian yang anda kuasai sehingga pengguna lain
+                    dapat belajar kepada anda, lewati jika anda tidak ingin
+                    menjadi mentor
+                  </Text>
+                </View>
 
-          <InputAutocomplete
-            data={this.getfilteredSkill()}
-            placeholder="Masukkan keahlian yang dikuasai"
-            value={this.state.inputSkill}
-            onChangeText={text => this.changeInputSkill(text)}
-            onItemPress={item => {
-              this.addSkill(item.keyName)
-              this.clearInputSkill()
-            }}
-          />
-        </View>
+                <InputAutocomplete
+                  data={this.getfilteredSkill(data.skills)}
+                  placeholder='Masukkan keahlian yang dikuasai'
+                  value={this.state.inputSkill}
+                  onChangeText={text => this.changeInputSkill(text)}
+                  onItemPress={item => {
+                    this.addSkill(item)
+                    this.clearInputSkill()
+                  }}
+                />
+              </View>
 
-        <Content padder>{this.renderItems()}</Content>
+              <Content padder>{this.renderItems()}</Content>
 
-        <View flexDirection={'row'}>
-          <Button
-            success
-            block
-            flex={1}
-            borderRadius={0}
-            onPress={() => this.submit()}>
-            <Text>Simpan</Text>
-          </Button>
+              <View flexDirection={'row'}>
+                <ApolloConsumer>
+                  {client => (
+                    <Button
+                      success
+                      block
+                      flex={1}
+                      borderRadius={0}
+                      onPress={() => this.submit(client)}>
+                      <Text>Simpan</Text>
+                    </Button>
+                  )}
+                </ApolloConsumer>
 
-          <Button
-            danger
-            bordered
-            block
-            flex={1}
-            borderRadius={0}
-            onPress={() => navigate('Main')}>
-            <Text>Lewati</Text>
-          </Button>
-        </View>
-      </Container>
+                <Button
+                  danger
+                  bordered
+                  block
+                  flex={1}
+                  borderRadius={0}
+                  onPress={() => navigate('Main')}>
+                  <Text>Lewati</Text>
+                </Button>
+              </View>
+            </Container>
+          )
+        }}
+      </Query>
     )
   }
 }

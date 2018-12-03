@@ -47,6 +47,7 @@ class Signin extends Component {
     const token = data.login
 
     if (this.isTokenValid(token)) {
+      client.resetStore()
       this.saveToken(token)
       this.checkAuth()
     } else {
