@@ -24,15 +24,16 @@ import { updateUserMutation } from 'services/graphql'
 class ProfileSettings extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      input: this.getProfile()
+    }
+  }
 
+  getProfile() {
     let input = this.props.navigation.getParam('profile')
-    delete input._id
     delete input.__typename
     delete input.socialMedia.__typename
-
-    this.state = {
-      input
-    }
+    return input
   }
 
   changeInput(name, value) {

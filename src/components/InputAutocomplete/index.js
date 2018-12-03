@@ -7,8 +7,8 @@ import styled from 'styled-components/native'
 class InputAutocomplete extends Component {
   renderRow(row) {
     return (
-      <ListItem key={row.id} button onPress={() => this.props.onItemPress(row)}>
-        <Text>{row.keyName}</Text>
+      <ListItem key={row} button onPress={() => this.props.onItemPress(row)}>
+        <Text>{row}</Text>
       </ListItem>
     )
   }

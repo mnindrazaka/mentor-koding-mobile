@@ -1,24 +1,15 @@
 import React, { Component } from 'react'
-import { AsyncStorage } from 'react-native'
 import { Content, Text, Button, Container, View, Icon } from 'native-base'
 
 import styled from 'styled-components/native'
 import { InputAutocomplete } from 'components'
 
+import { Query } from 'react-apollo'
+import { skillsQuery } from 'services/graphql'
+
 class Skill extends Component {
   state = {
-    availableSkills: [],
     inputSkill: ''
-  }
-
-  componentDidMount() {
-    this.getSkills()
-  }
-
-  getSkills() {
-    AsyncStorage.getItem('skills').then(value => {
-      this.setState({ availableSkills: JSON.parse(value) })
-    })
   }
 
   changeInputSkill(text) {
@@ -29,12 +20,11 @@ class Skill extends Component {
     this.setState({ inputSkill: '' })
   }
 
-  getfilteredSkill() {
-    const skills = this.state.availableSkills
+  getfilteredSkill(availableSkills) {
+    const skills = availableSkills
       .filter(
-        item =>
-          this.isSkillMatchInput(item.keyName) &&
-          !this.isSkillAlreadyAdded(item.keyName)
+        skill =>
+          this.isSkillMatchInput(skill) && !this.isSkillAlreadyAdded(skill)
       )
       .slice(0, 3)
     return this.state.inputSkill === '' ? [] : skills
@@ -69,24 +59,29 @@ class Skill extends Component {
   }
 
   render() {
-    console.log(this.state.availableSkills)
     return (
-      <Container>
-        <View padding={15}>
-          <InputAutocomplete
-            data={this.getfilteredSkill()}
-            placeholder="Masukkan keahlian yang dikuasai"
-            value={this.state.inputSkill}
-            onChangeText={text => this.changeInputSkill(text)}
-            onItemPress={item => {
-              this.props.onAddSkill(item.keyName)
-              this.clearInputSkill()
-            }}
-          />
-        </View>
-
-        <Content padder>{this.renderItems()}</Content>
-      </Container>
+      <Query query={skillsQuery}>
+        {({ loading, error, data }) => {
+          if (loading) return null
+          return (
+            <Container>
+              <View padding={15}>
+                <InputAutocomplete
+                  data={this.getfilteredSkill(data.skills)}
+                  placeholder='Masukkan keahlian yang dikuasai'
+                  value={this.state.inputSkill}
+                  onChangeText={text => this.changeInputSkill(text)}
+                  onItemPress={item => {
+                    this.props.onAddSkill(item)
+                    this.clearInputSkill()
+                  }}
+                />
+              </View>
+              <Content padder>{this.renderItems()}</Content>
+            </Container>
+          )
+        }}
+      </Query>
     )
   }
 }
