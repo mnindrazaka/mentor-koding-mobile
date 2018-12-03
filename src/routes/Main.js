@@ -11,9 +11,9 @@ import { Icon } from 'native-base'
 
 const Main = createMaterialTopTabNavigator(
   {
-    Search,
-    Meetup,
-    Chat,
+    // Search,
+    // Meetup,
+    // Chat,
     Profile
   },
   {

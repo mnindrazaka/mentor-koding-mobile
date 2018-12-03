@@ -7,12 +7,8 @@ import material from './native-base-theme/variables/material'
 
 import 'moment/locale/id'
 
-import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from 'react-apollo'
-
-const client = new ApolloClient({
-  uri: 'https://mentor-microservice-gateway.herokuapp.com/graphql'
-})
+import { client } from './src/services/graphql'
 
 export default class App extends Component {
   render() {

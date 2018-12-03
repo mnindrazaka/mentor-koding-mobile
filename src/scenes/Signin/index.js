@@ -44,9 +44,10 @@ class Signin extends Component {
       query: loginQuery,
       variables: { username, password }
     })
+    const token = data.login
 
-    if (this.isTokenValid(data)) {
-      this.saveToken(data)
+    if (this.isTokenValid(token)) {
+      this.saveToken(token)
       this.checkAuth()
     } else {
       this.clearInput()

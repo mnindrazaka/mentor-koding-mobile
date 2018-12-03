@@ -11,12 +11,16 @@ class Profile extends Component {
   render() {
     return (
       <Query query={profileQuery}>
-        {({ loading, error, data }) => (
-          <Container>
-            <Identity profile={data.profile} />
-            <Tabs navigation={this.props.navigation} profile={data.profile} />
-          </Container>
-        )}
+        {({ loading, error, data }) => {
+          if (loading) return null
+          if (error) return null
+          return (
+            <Container>
+              <Identity profile={data.profile} />
+              <Tabs navigation={this.props.navigation} profile={data.profile} />
+            </Container>
+          )
+        }}
       </Query>
     )
   }

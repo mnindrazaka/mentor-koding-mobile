@@ -31,7 +31,8 @@ const Photo = styled(Thumbnail)`
   width: 100px;
   height: 100px;
   border-radius: 50px;
-  border: 2px white;
+  border-width: 2px;
+  border-color: white;
   margin-bottom: 10px;
 `
 

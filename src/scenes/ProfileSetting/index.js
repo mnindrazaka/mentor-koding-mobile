@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { ToastAndroid } from 'react-native'
-import { user } from 'services'
 import {
   Container,
   Tabs,
@@ -20,11 +19,20 @@ import MentorSetting from './MentorSetting'
 import SocialMedia from './SocialMedia'
 
 import { ApolloConsumer } from 'react-apollo'
-import { updateUserMutation } from '../../services/graphql'
+import { updateUserMutation } from 'services/graphql'
 
 class ProfileSettings extends Component {
-  state = {
-    input: this.props.navigation.getParam('profile')
+  constructor(props) {
+    super(props)
+
+    let input = this.props.navigation.getParam('profile')
+    delete input._id
+    delete input.__typename
+    delete input.socialMedia.__typename
+
+    this.state = {
+      input
+    }
   }
 
   changeInput(name, value) {
@@ -70,7 +78,7 @@ class ProfileSettings extends Component {
     client
       .mutate({
         mutation: updateUserMutation,
-        variables: this.state.input
+        variables: { user: this.state.input }
       })
       .then(() => {
         this.props.navigation.navigate('Profile')

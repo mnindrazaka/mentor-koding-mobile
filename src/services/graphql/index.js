@@ -13,6 +13,8 @@ import deleteUserMutation from './mutation/deleteUserMutation'
 import updateUserMutation from './mutation/updateUserMutation'
 import updateMeetupMutation from './mutation/updateMeetupMutation'
 
+import client from './client'
+
 export {
   loginQuery,
   meetupQuery,
@@ -26,5 +28,6 @@ export {
   createUserMutation,
   deleteUserMutation,
   updateUserMutation,
-  updateMeetupMutation
+  updateMeetupMutation,
+  client
 }
