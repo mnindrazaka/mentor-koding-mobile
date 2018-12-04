@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { AsyncStorage } from 'react-native'
-import { user } from 'services'
 import { Container, Content, List } from 'native-base'
 import { Header, InputAutocomplete } from 'components'
 import ListItem from './ListItem'
+
+import { Query, ApolloConsumer } from 'react-apollo'
+import { skillsQuery, searchQuery } from '../../services/graphql'
 
 class SearchResult extends Component {
   state = {
@@ -14,17 +15,10 @@ class SearchResult extends Component {
 
   componentDidMount() {
     this.setResult(this.props.navigation.getParam('result'))
-    this.getSkills()
   }
 
   setResult(result) {
     this.setState({ result })
-  }
-
-  getSkills() {
-    AsyncStorage.getItem('skills').then(value => {
-      this.setState({ availableSkills: JSON.parse(value) })
-    })
   }
 
   changeInputSkill(text) {
@@ -35,9 +29,9 @@ class SearchResult extends Component {
     this.setState({ inputSkill: '' })
   }
 
-  getfilteredSkill() {
-    const skills = this.state.availableSkills
-      .filter(item => this.isSkillMatchInput(item.keyName))
+  getfilteredSkill(availableSkills) {
+    const skills = availableSkills
+      .filter(skill => this.isSkillMatchInput(skill))
       .slice(0, 3)
     return this.state.inputSkill === '' ? [] : skills
   }
@@ -46,10 +40,12 @@ class SearchResult extends Component {
     return skill.toLowerCase().includes(this.state.inputSkill.toLowerCase())
   }
 
-  search(skill) {
-    user.search({ skill }).then(data => {
-      this.setResult(data)
+  async search(client, skill) {
+    const { data } = await client.query({
+      query: searchQuery,
+      variables: { skill }
     })
+    this.setResult(data.search)
   }
 
   renderRow(row) {
@@ -67,27 +63,40 @@ class SearchResult extends Component {
 
   render() {
     return (
-      <Container>
-        <Header title={'Hasil Pencarian'} navigation={this.props.navigation} />
-        <Content padder>
-          <InputAutocomplete
-            data={this.getfilteredSkill()}
-            placeholder="Topik yang ingin dipelajari"
-            value={this.state.inputSkill}
-            onChangeText={text => this.changeInputSkill(text)}
-            onItemPress={item => {
-              this.search(item.keyName)
-              this.clearInputSkill()
-            }}
-          />
-
-          <List
-            style={{ marginTop: 15 }}
-            dataArray={this.state.result}
-            renderRow={row => this.renderRow(row)}
-          />
-        </Content>
-      </Container>
+      <Query query={skillsQuery}>
+        {({ loading, error, data }) => {
+          if (loading) return null
+          return (
+            <Container>
+              <Header
+                title={'Hasil Pencarian'}
+                navigation={this.props.navigation}
+              />
+              <Content padder>
+                <ApolloConsumer>
+                  {client => (
+                    <InputAutocomplete
+                      data={this.getfilteredSkill(data.skills)}
+                      placeholder='Topik yang ingin dipelajari'
+                      value={this.state.inputSkill}
+                      onChangeText={text => this.changeInputSkill(text)}
+                      onItemPress={item => {
+                        this.search(client, item)
+                        this.clearInputSkill()
+                      }}
+                    />
+                  )}
+                </ApolloConsumer>
+                <List
+                  style={{ marginTop: 15 }}
+                  dataArray={this.state.result}
+                  renderRow={row => this.renderRow(row)}
+                />
+              </Content>
+            </Container>
+          )
+        }}
+      </Query>
     )
   }
 }

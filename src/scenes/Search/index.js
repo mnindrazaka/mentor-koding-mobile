@@ -5,29 +5,21 @@ import { Container, Content, H2, Text, View } from 'native-base'
 
 import { InputAutocomplete } from 'components'
 
+import { Query, ApolloConsumer } from 'react-apollo'
+import { searchQuery, skillsQuery } from '../../services/graphql'
+
 class Search extends Component {
   state = {
-    availableSkills: [],
     inputSkill: ''
-  }
-
-  componentDidMount() {
-    this.getSkills()
-  }
-
-  getSkills() {
-    AsyncStorage.getItem('skills').then(value => {
-      this.setState({ availableSkills: JSON.parse(value) })
-    })
   }
 
   changeInputSkill(text) {
     this.setState({ inputSkill: text })
   }
 
-  getfilteredSkill() {
-    const skills = this.state.availableSkills
-      .filter(item => this.isSkillMatchInput(item.keyName))
+  getfilteredSkill(availableSkills) {
+    const skills = availableSkills
+      .filter(skill => this.isSkillMatchInput(skill))
       .slice(0, 3)
     return this.state.inputSkill === '' ? [] : skills
   }
@@ -36,34 +28,46 @@ class Search extends Component {
     return skill.toLowerCase().includes(this.state.inputSkill.toLowerCase())
   }
 
-  search(skill) {
-    user.search({ skill }).then(data => {
-      this.props.navigation.navigate('SearchResult', { result: data })
+  async search(client, skill) {
+    const { data } = await client.query({
+      query: searchQuery,
+      variables: { skill }
     })
+    this.props.navigation.navigate('SearchResult', { result: data.search })
   }
 
   render() {
-    const { navigate } = this.props.navigation
     return (
-      <Container>
-        <Content padder justifyContent={'center'}>
-          <View alignItems={'center'} marginBottom={30}>
-            <H2>Temukan Mentormu</H2>
-            <Text style={{ textAlign: 'center' }}>
-              Mentor dapat membantu anda mempelajari topik pemrograman yang
-              ingin dipelajari
-            </Text>
-          </View>
+      <Query query={skillsQuery}>
+        {({ loading, error, data }) => {
+          if (loading) return null
+          return (
+            <Container>
+              <Content padder justifyContent={'center'}>
+                <View alignItems={'center'} marginBottom={30}>
+                  <H2>Temukan Mentormu</H2>
+                  <Text style={{ textAlign: 'center' }}>
+                    Mentor dapat membantu anda mempelajari topik pemrograman
+                    yang ingin dipelajari
+                  </Text>
+                </View>
 
-          <InputAutocomplete
-            data={this.getfilteredSkill()}
-            placeholder="Topik yang ingin dipelajari"
-            value={this.state.inputSkill}
-            onChangeText={text => this.changeInputSkill(text)}
-            onItemPress={item => this.search(item.keyName)}
-          />
-        </Content>
-      </Container>
+                <ApolloConsumer>
+                  {client => (
+                    <InputAutocomplete
+                      data={this.getfilteredSkill(data.skills)}
+                      placeholder='Topik yang ingin dipelajari'
+                      value={this.state.inputSkill}
+                      onChangeText={text => this.changeInputSkill(text)}
+                      onItemPress={item => this.search(client, item)}
+                    />
+                  )}
+                </ApolloConsumer>
+              </Content>
+            </Container>
+          )
+        }}
+      </Query>
     )
   }
 }
