@@ -3,7 +3,7 @@ import { ToastAndroid } from 'react-native'
 import { Content, Text, Button, Container, View, Icon } from 'native-base'
 
 import styled from 'styled-components/native'
-import { Header, InputAutocomplete } from 'components'
+import { Header, InputAutocomplete, Loading } from 'components'
 
 import { Query, ApolloConsumer } from 'react-apollo'
 import { skillsQuery, updateUserMutation } from '../../services/graphql'
@@ -88,9 +88,8 @@ class SignupSelectSkill extends Component {
     const { navigate } = this.props.navigation
     return (
       <Query query={skillsQuery}>
-        {({ loading, error, data }) => {
-          if (loading) return null
-          return (
+        {({ loading, error, data }) => (
+          <Loading loading={loading} error={error}>
             <Container>
               <Header
                 navigation={this.props.navigation}
@@ -146,8 +145,8 @@ class SignupSelectSkill extends Component {
                 </Button>
               </View>
             </Container>
-          )
-        }}
+          </Loading>
+        )}
       </Query>
     )
   }

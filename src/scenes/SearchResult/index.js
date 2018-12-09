@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Content, List } from 'native-base'
-import { Header, InputAutocomplete } from 'components'
+import { Header, InputAutocomplete, Loading } from 'components'
 import ListItem from './ListItem'
 
 import { Query, ApolloConsumer } from 'react-apollo'
@@ -64,9 +64,8 @@ class SearchResult extends Component {
   render() {
     return (
       <Query query={skillsQuery}>
-        {({ loading, error, data }) => {
-          if (loading) return null
-          return (
+        {({ loading, error, data }) => (
+          <Loading loading={loading} error={error}>
             <Container>
               <Header
                 title={'Hasil Pencarian'}
@@ -94,8 +93,8 @@ class SearchResult extends Component {
                 />
               </Content>
             </Container>
-          )
-        }}
+          </Loading>
+        )}
       </Query>
     )
   }

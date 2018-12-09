@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import { AsyncStorage } from 'react-native'
-import { user } from 'services'
 import { Container, Content, H2, Text, View } from 'native-base'
-
-import { InputAutocomplete } from 'components'
+import { InputAutocomplete, Loading } from 'components'
 
 import { Query, ApolloConsumer } from 'react-apollo'
 import { searchQuery, skillsQuery } from '../../services/graphql'
@@ -39,9 +36,8 @@ class Search extends Component {
   render() {
     return (
       <Query query={skillsQuery}>
-        {({ loading, error, data }) => {
-          if (loading) return null
-          return (
+        {({ loading, error, data }) => (
+          <Loading loading={loading} error={error}>
             <Container>
               <Content padder justifyContent={'center'}>
                 <View alignItems={'center'} marginBottom={30}>
@@ -65,8 +61,8 @@ class Search extends Component {
                 </ApolloConsumer>
               </Content>
             </Container>
-          )
-        }}
+          </Loading>
+        )}
       </Query>
     )
   }
