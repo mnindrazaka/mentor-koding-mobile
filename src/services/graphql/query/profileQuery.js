@@ -3,6 +3,7 @@ import { gql } from 'apollo-boost'
 export default gql`
   query profileQuery {
     profile {
+      _id
       username
       name
       profilePic

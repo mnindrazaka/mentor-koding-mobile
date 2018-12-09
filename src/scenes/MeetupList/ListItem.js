@@ -26,15 +26,15 @@ class CustomListItem extends Component {
     return (
       <Container onPress={() => this.props.onPress()}>
         <DateContainer>
-          <Moment format="DD" element={H2}>
-            {this.props.date}
+          <Moment format='DD' element={H2}>
+            {this.props.datetime}
           </Moment>
 
-          <Moment format="MMM" element={Text}>
-            {this.props.date}
+          <Moment format='MMM' element={Text}>
+            {this.props.datetime}
           </Moment>
-          <Moment format="YYYY" element={Text}>
-            {this.props.date}
+          <Moment format='YYYY' element={Text}>
+            {this.props.datetime}
           </Moment>
         </DateContainer>
 

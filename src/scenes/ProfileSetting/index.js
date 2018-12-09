@@ -31,6 +31,7 @@ class ProfileSettings extends Component {
 
   getProfile() {
     let input = this.props.navigation.getParam('profile')
+    delete input._id
     delete input.__typename
     delete input.socialMedia.__typename
     return input

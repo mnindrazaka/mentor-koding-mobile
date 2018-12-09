@@ -4,12 +4,10 @@ import { Header, InputAutocomplete, Loading } from 'components'
 import ListItem from './ListItem'
 
 import { Query, ApolloConsumer } from 'react-apollo'
-import { skillsQuery, searchQuery } from '../../services/graphql'
+import { skillsQuery, searchQuery } from 'services/graphql'
 
 class SearchResult extends Component {
   state = {
-    availableSkills: [],
-    inputSkill: '',
     result: []
   }
 
@@ -19,25 +17,6 @@ class SearchResult extends Component {
 
   setResult(result) {
     this.setState({ result })
-  }
-
-  changeInputSkill(text) {
-    this.setState({ inputSkill: text })
-  }
-
-  clearInputSkill() {
-    this.setState({ inputSkill: '' })
-  }
-
-  getfilteredSkill(availableSkills) {
-    const skills = availableSkills
-      .filter(skill => this.isSkillMatchInput(skill))
-      .slice(0, 3)
-    return this.state.inputSkill === '' ? [] : skills
-  }
-
-  isSkillMatchInput(skill) {
-    return skill.toLowerCase().includes(this.state.inputSkill.toLowerCase())
   }
 
   async search(client, skill) {
@@ -75,14 +54,9 @@ class SearchResult extends Component {
                 <ApolloConsumer>
                   {client => (
                     <InputAutocomplete
-                      data={this.getfilteredSkill(data.skills)}
+                      data={data.skills}
                       placeholder='Topik yang ingin dipelajari'
-                      value={this.state.inputSkill}
-                      onChangeText={text => this.changeInputSkill(text)}
-                      onItemPress={item => {
-                        this.search(client, item)
-                        this.clearInputSkill()
-                      }}
+                      onItemPress={item => this.search(client, item)}
                     />
                   )}
                 </ApolloConsumer>

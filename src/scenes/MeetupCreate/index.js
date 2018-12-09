@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
-import { user } from 'services'
 import { Content, Input, Text, Button, Container } from 'native-base'
 import { DatePickerAndroid, TimePickerAndroid } from 'react-native'
-
 import { Header, Item } from 'components'
+
+import { ApolloConsumer } from 'react-apollo'
+import { createMeetupMutation } from 'services/graphql'
 
 class MeetupCreate extends Component {
   state = {
     input: {
       topic: '',
       mentorId: '',
-      date: '',
-      time: '',
+      datetime: new Date(),
       detailPlace: '',
       lat: 0,
       lng: 0
@@ -37,32 +37,57 @@ class MeetupCreate extends Component {
 
   async openDatePicker() {
     const { action, year, month, day } = await DatePickerAndroid.open({
-      date: new Date()
+      minDate: new Date(),
+      date: this.state.input.datetime
     })
-
     if (action !== DatePickerAndroid.dismissedAction) {
-      this.changeInput(`${year}/${month}/${day}`, 'date')
+      const { datetime } = this.state.input
+      datetime.setDate(day)
+      datetime.setMonth(month)
+      datetime.setFullYear(year)
+      this.changeInput(datetime, 'datetime')
     }
   }
 
   async openTimePicker() {
     const { action, hour, minute } = await TimePickerAndroid.open({
-      hour: 14,
-      minute: 0,
+      hour: this.state.input.datetime.getHours(),
+      minute: this.state.input.datetime.getMinutes(),
       is24Hour: true
     })
-
     if (action !== TimePickerAndroid.dismissedAction) {
-      this.changeInput(`${hour}:${minute}`, 'time')
+      const { datetime } = this.state.input
+      datetime.setHours(hour)
+      datetime.setMinutes(minute)
+      this.changeInput(datetime, 'datetime')
     }
   }
 
-  submit() {
-    user.update(this.state.input).then(data => {})
+  getDate() {
+    return this.state.input.datetime.toLocaleDateString('id', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    })
+  }
+
+  getTime() {
+    return this.state.input.datetime.toLocaleTimeString('id', {
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+  }
+
+  submit(client) {
+    client
+      .mutate({
+        mutation: createMeetupMutation,
+        variables: { meetup: this.state.input }
+      })
+      .then(() => this.props.navigation.navigate('MeetupList'))
   }
 
   render() {
-    console.log(this.state)
     const mentor = this.props.navigation.getParam('profile')
     return (
       <Container>
@@ -77,7 +102,7 @@ class MeetupCreate extends Component {
           <Text>Topik yang ingin dibahas</Text>
           <Item regular>
             <Input
-              placeholder="Masukkan Topik"
+              placeholder='Masukkan Topik'
               value={this.state.input.topic}
               onChangeText={text => this.changeInput(text, 'topic')}
             />
@@ -86,9 +111,8 @@ class MeetupCreate extends Component {
           <Text>Tanggal Meetup</Text>
           <Item regular>
             <Input
-              placeholder="Masukkan Tanggal"
-              value={this.state.input.date}
-              onChangeText={text => this.changeInput(text, 'date')}
+              placeholder='Masukkan Tanggal'
+              value={this.getDate()}
               onFocus={() => this.openDatePicker()}
             />
           </Item>
@@ -96,9 +120,8 @@ class MeetupCreate extends Component {
           <Text>Waktu Meetup</Text>
           <Item regular>
             <Input
-              placeholder="Masukkan Waktu"
-              value={this.state.input.time}
-              onChangeText={text => this.changeInput(text, 'time')}
+              placeholder='Masukkan Waktu'
+              value={this.getTime()}
               onFocus={() => this.openTimePicker()}
             />
           </Item>
@@ -106,16 +129,20 @@ class MeetupCreate extends Component {
           <Text>Tempat Meetup</Text>
           <Item regular>
             <Input
-              placeholder="Masukkan Tempat"
+              placeholder='Masukkan Tempat'
               value={this.state.input.detailPlace}
               onChangeText={text => this.changeInput(text, 'detailPlace')}
             />
           </Item>
         </Content>
 
-        <Button block success>
-          <Text>Buat Meetup</Text>
-        </Button>
+        <ApolloConsumer>
+          {client => (
+            <Button block success onPress={() => this.submit(client)}>
+              <Text>Buat Meetup</Text>
+            </Button>
+          )}
+        </ApolloConsumer>
       </Container>
     )
   }

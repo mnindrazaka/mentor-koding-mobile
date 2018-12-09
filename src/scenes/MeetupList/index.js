@@ -1,23 +1,38 @@
 import React, { Component } from 'react'
 import { Container, Fab } from 'native-base'
 
-import { BadgeIcon } from 'components'
+import { BadgeIcon, Loading } from 'components'
 import Upcoming from './Upcoming'
 import Remaining from './Remaining'
+
+import { Query } from 'react-apollo'
+import { meetupsQuery } from '../../services/graphql'
 
 class MeetupList extends Component {
   render() {
     const { navigate } = this.props.navigation
     return (
-      <Container>
-        <Upcoming navigation={this.props.navigation} />
-        <Remaining navigation={this.props.navigation} />
-        <Fab
-          style={{ backgroundColor: '#5067FF' }}
-          onPress={() => navigate('MeetupRequest')}>
-          <BadgeIcon icon={'calendar'} count={'3'} />
-        </Fab>
-      </Container>
+      <Query query={meetupsQuery} variables={{ isConfirmed: true }}>
+        {({ loading, error, data }) => (
+          <Loading loading={loading} error={error}>
+            <Container>
+              <Upcoming
+                navigation={this.props.navigation}
+                meetups={data.meetups}
+              />
+              <Remaining
+                navigation={this.props.navigation}
+                meetups={data.meetups}
+              />
+              <Fab
+                style={{ backgroundColor: '#5067FF' }}
+                onPress={() => navigate('MeetupRequest')}>
+                <BadgeIcon icon={'calendar'} count={'3'} />
+              </Fab>
+            </Container>
+          </Loading>
+        )}
+      </Query>
     )
   }
 }
