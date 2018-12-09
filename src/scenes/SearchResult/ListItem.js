@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { ListItem, Left, Thumbnail, Body, Text } from 'native-base'
+import { ListItem, Left, Body, Text } from 'native-base'
+import { Photo } from 'components'
 import PropTypes from 'prop-types'
 
 class CustomListItem extends Component {
@@ -7,7 +8,7 @@ class CustomListItem extends Component {
     return (
       <ListItem button thumbnail onPress={() => this.props.onPress()}>
         <Left>
-          <Thumbnail source={{ uri: this.props.profilePic }} />
+          <Photo source={{ uri: this.props.profilePic }} />
         </Left>
         <Body>
           <Text>{this.props.name}</Text>

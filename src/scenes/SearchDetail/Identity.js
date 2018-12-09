@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { Thumbnail, Button, Text } from 'native-base'
+import { Button, Text } from 'native-base'
+import { Photo } from 'components'
 import material from 'native-base-theme/variables/material'
 import styled from 'styled-components/native'
 
@@ -18,7 +19,7 @@ class Identity extends Component {
     const { profile } = this.props
     return (
       <Container>
-        <Photo source={{ uri: profile.profilePic }} />
+        <Photo large source={{ uri: profile.profilePic }} />
         <Name>{profile.name}</Name>
         <Headline>{profile.description}</Headline>
 
@@ -51,19 +52,11 @@ const ButtonGroup = styled.View`
   margin-top: 15px;
 `
 
-const Photo = styled(Thumbnail)`
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
-  border-width: 2px;
-  border-color: white;
-  margin-bottom: 10px;
-`
-
 const Name = styled.Text`
   font-size: 18px;
   color: #fff;
   font-weight: bold;
+  margin-top: 10px;
 `
 
 const Headline = styled.Text`

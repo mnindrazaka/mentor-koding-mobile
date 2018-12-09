@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Thumbnail } from 'native-base'
 import material from 'native-base-theme/variables/material'
+import { Photo } from 'components'
 import styled from 'styled-components/native'
 
 class Identity extends Component {
@@ -9,6 +9,7 @@ class Identity extends Component {
     return (
       <Container>
         <Photo
+          large
           source={{
             uri: profile.profilePic
           }}
@@ -27,19 +28,11 @@ const Container = styled.View`
   align-items: center;
 `
 
-const Photo = styled(Thumbnail)`
-  width: 100px;
-  height: 100px;
-  border-radius: 50px;
-  border-width: 2px;
-  border-color: white;
-  margin-bottom: 10px;
-`
-
 const Name = styled.Text`
   font-size: 18px;
   color: #fff;
   font-weight: bold;
+  margin-top: 10px;
 `
 
 const Headline = styled.Text`
