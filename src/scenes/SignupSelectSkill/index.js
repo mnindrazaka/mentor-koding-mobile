@@ -10,16 +10,7 @@ import { skillsQuery, updateUserMutation } from '../../services/graphql'
 
 class SignupSelectSkill extends Component {
   state = {
-    inputSkill: '',
     skills: []
-  }
-
-  changeInputSkill(text) {
-    this.setState({ inputSkill: text })
-  }
-
-  clearInputSkill() {
-    this.setState({ inputSkill: '' })
   }
 
   addSkill(skill) {
@@ -39,24 +30,6 @@ class SignupSelectSkill extends Component {
 
   isSkillValid(skill) {
     return this.state.skills.indexOf(skill) === -1
-  }
-
-  getfilteredSkill(availableSkills) {
-    const skills = availableSkills
-      .filter(
-        skill =>
-          this.isSkillMatchInput(skill) && !this.isSkillAlreadyAdded(skill)
-      )
-      .slice(0, 3)
-    return this.state.inputSkill === '' ? [] : skills
-  }
-
-  isSkillMatchInput(skill) {
-    return skill.toLowerCase().includes(this.state.inputSkill.toLowerCase())
-  }
-
-  isSkillAlreadyAdded(skill) {
-    return this.state.skills.indexOf(skill) > -1
   }
 
   submit(client) {
@@ -107,14 +80,9 @@ class SignupSelectSkill extends Component {
                 </View>
 
                 <InputAutocomplete
-                  data={this.getfilteredSkill(data.skills)}
+                  data={data.skills}
                   placeholder='Masukkan keahlian yang dikuasai'
-                  value={this.state.inputSkill}
-                  onChangeText={text => this.changeInputSkill(text)}
-                  onItemPress={item => {
-                    this.addSkill(item)
-                    this.clearInputSkill()
-                  }}
+                  onItemPress={item => this.addSkill(item)}
                 />
               </View>
 

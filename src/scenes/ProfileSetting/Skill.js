@@ -2,42 +2,12 @@ import React, { Component } from 'react'
 import { Content, Text, Button, Container, View, Icon } from 'native-base'
 
 import styled from 'styled-components/native'
-import { InputAutocomplete } from 'components'
+import { InputAutocomplete, Loading } from 'components'
 
 import { Query } from 'react-apollo'
 import { skillsQuery } from 'services/graphql'
 
 class Skill extends Component {
-  state = {
-    inputSkill: ''
-  }
-
-  changeInputSkill(text) {
-    this.setState({ inputSkill: text })
-  }
-
-  clearInputSkill() {
-    this.setState({ inputSkill: '' })
-  }
-
-  getfilteredSkill(availableSkills) {
-    const skills = availableSkills
-      .filter(
-        skill =>
-          this.isSkillMatchInput(skill) && !this.isSkillAlreadyAdded(skill)
-      )
-      .slice(0, 3)
-    return this.state.inputSkill === '' ? [] : skills
-  }
-
-  isSkillMatchInput(skill) {
-    return skill.toLowerCase().includes(this.state.inputSkill.toLowerCase())
-  }
-
-  isSkillAlreadyAdded(skill) {
-    return this.props.skills.indexOf(skill) > -1
-  }
-
   renderItems() {
     return this.props.skills.map((item, index) => (
       <Wrapper key={index}>
@@ -61,26 +31,20 @@ class Skill extends Component {
   render() {
     return (
       <Query query={skillsQuery}>
-        {({ loading, error, data }) => {
-          if (loading) return null
-          return (
+        {({ loading, error, data }) => (
+          <Loading loading={loading} error={error}>
             <Container>
               <View padding={15}>
                 <InputAutocomplete
-                  data={this.getfilteredSkill(data.skills)}
+                  data={data.skills}
                   placeholder='Masukkan keahlian yang dikuasai'
-                  value={this.state.inputSkill}
-                  onChangeText={text => this.changeInputSkill(text)}
-                  onItemPress={item => {
-                    this.props.onAddSkill(item)
-                    this.clearInputSkill()
-                  }}
+                  onItemPress={item => this.props.onAddSkill(item)}
                 />
               </View>
               <Content padder>{this.renderItems()}</Content>
             </Container>
-          )
-        }}
+          </Loading>
+        )}
       </Query>
     )
   }
