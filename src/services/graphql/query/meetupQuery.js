@@ -45,6 +45,7 @@ export default gql`
         education
         skills
       }
+      isMentor
       datetime
       lat
       lng
