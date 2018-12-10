@@ -2,41 +2,33 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Text, H2, Button } from 'native-base'
 import { TextIcon } from 'components'
+import Moment from 'react-moment'
 import styled from 'styled-components/native'
 
 class CustomListItem extends Component {
-  renderRole() {
-    if (this.props.isMentor)
-      return (
-        <TextIcon text={'Sebagai Mentor'} icon={'teach'} color={'#656565'} />
-      )
-    else
-      return (
-        <TextIcon
-          text={'Sebagai Murid'}
-          icon={'book-open-variant'}
-          color={'#656565'}
-        />
-      )
-  }
-
   render() {
     return (
-      <Container onPress={() => this.props.onPress()}>
+      <Container>
         <DateContainer>
-          <H2>5</H2>
-          <Text>September</Text>
-          <Text>2018</Text>
+          <Moment format='DD' element={H2}>
+            {this.props.datetime}
+          </Moment>
+
+          <Moment format='MMM' element={Text}>
+            {this.props.datetime}
+          </Moment>
+          <Moment format='YYYY' element={Text}>
+            {this.props.datetime}
+          </Moment>
         </DateContainer>
 
         <MeetupContainer>
-          <Title>{this.props.title}</Title>
+          <Title>{this.props.topic}</Title>
           <TextIcon
-            text={this.props.location}
+            text={this.props.detailPlace}
             icon={'map-marker'}
             color={'#656565'}
           />
-          {this.renderRole()}
 
           <ButtonContainer marginTop={15}>
             <Button small onPress={() => alert('terima')}>
@@ -86,11 +78,9 @@ const ButtonContainer = styled.View`
 `
 
 CustomListItem.propTypes = {
-  title: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  isMentor: PropTypes.bool.isRequired,
-  onPress: PropTypes.func.isRequired
+  topic: PropTypes.string.isRequired,
+  detailPlace: PropTypes.string.isRequired,
+  datetime: PropTypes.string.isRequired
 }
 
 export default CustomListItem

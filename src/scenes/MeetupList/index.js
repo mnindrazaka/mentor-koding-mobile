@@ -20,14 +20,16 @@ class MeetupList extends Component {
                 navigation={this.props.navigation}
                 meetups={data.meetups}
               />
+
               <Remaining
                 navigation={this.props.navigation}
                 meetups={data.meetups}
               />
+
               <Fab
                 style={{ backgroundColor: '#5067FF' }}
                 onPress={() => navigate('MeetupRequest')}>
-                <BadgeIcon icon={'calendar'} count={'3'} />
+                <BadgeIcon icon={'calendar'} />
               </Fab>
             </Container>
           </Loading>

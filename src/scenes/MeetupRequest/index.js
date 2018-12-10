@@ -1,48 +1,19 @@
 import React, { Component } from 'react'
 import { Container, Content, List } from 'native-base'
 
-import { Header } from 'components'
+import { Header, Loading } from 'components'
 import ListItem from './ListItem'
 
-class MeetupRequest extends Component {
-  state = {
-    data: [
-      {
-        title: 'Async menggunakan nodejs',
-        location: 'Polinema',
-        date: '02 September 2018',
-        isMentor: true
-      },
-      {
-        title: 'Topik Meetup',
-        location: 'Polinema',
-        date: '02 September 2018',
-        isMentor: false
-      },
-      {
-        title: 'Topik Meetup',
-        location: 'Polinema',
-        date: '02 September 2018',
-        isMentor: false
-      },
-      {
-        title: 'Topik Meetup',
-        location: 'Polinema',
-        date: '02 September 2018',
-        isMentor: true
-      }
-    ]
-  }
+import { Query } from 'react-apollo'
+import { meetupsQuery } from '../../services/graphql'
 
+class MeetupRequest extends Component {
   renderRow(row) {
-    const { navigate } = this.props.navigation
     return (
       <ListItem
-        title={row.title}
-        location={row.location}
-        date={row.date}
-        isMentor={row.isMentor}
-        onPress={() => navigate('MeetupDetail')}
+        topic={row.topic}
+        detailPlace={row.detailPlace}
+        datetime={row.datetime}
       />
     )
   }
@@ -54,12 +25,18 @@ class MeetupRequest extends Component {
           title={'Permintaan Meetup'}
           navigation={this.props.navigation}
         />
-        <Content padder>
-          <List
-            dataArray={this.state.data}
-            renderRow={row => this.renderRow(row)}
-          />
-        </Content>
+        <Query query={meetupsQuery} variables={{ isConfirmed: false }}>
+          {({ loading, error, data }) => (
+            <Loading loading={loading} error={error}>
+              <Content padder>
+                <List
+                  dataArray={data.meetups}
+                  renderRow={row => this.renderRow(row)}
+                />
+              </Content>
+            </Loading>
+          )}
+        </Query>
       </Container>
     )
   }

@@ -7,9 +7,11 @@ class BadgeIcon extends Component {
     return (
       <View>
         <Icon name={this.props.icon} style={{ color: 'white' }} />
-        <Badge style={{ position: 'absolute', top: -15, left: -15 }}>
-          <Text>{this.props.count}</Text>
-        </Badge>
+        {this.props.count ? (
+          <Badge style={{ position: 'absolute', top: -15, left: -15 }}>
+            <Text>{this.props.count}</Text>
+          </Badge>
+        ) : null}
       </View>
     )
   }

@@ -81,7 +81,7 @@ const Title = styled.Text`
 CustomListItem.propTypes = {
   topic: PropTypes.string.isRequired,
   detailPlace: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
+  datetime: PropTypes.string.isRequired,
   isMentor: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired
 }
