@@ -29,6 +29,7 @@ class CustomListItem extends Component {
             icon={'map-marker'}
             color={'#656565'}
           />
+
           <ButtonContainer marginTop={15}>
             <Button small onPress={() => this.props.onAcceptMeetup()}>
               <Text>Terima</Text>
@@ -42,7 +43,6 @@ class CustomListItem extends Component {
               <Text>Tolak</Text>
             </Button>
           </ButtonContainer>
-          )}
         </MeetupContainer>
       </Container>
     )

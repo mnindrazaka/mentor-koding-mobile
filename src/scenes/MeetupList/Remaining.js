@@ -12,7 +12,7 @@ class Remaining extends Component {
         detailPlace={row.detailPlace}
         datetime={row.datetime}
         isMentor={row.isMentor}
-        onPress={() => navigate('MeetupDetail')}
+        onPress={() => navigate('MeetupDetail', { meetup: row })}
       />
     ))
   }

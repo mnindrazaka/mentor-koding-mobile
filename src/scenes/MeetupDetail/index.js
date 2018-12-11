@@ -10,25 +10,30 @@ import {
   H3,
   Button
 } from 'native-base'
-
+import Moment from 'react-moment'
 import { Header } from 'components'
 
 class MeetupDetail extends Component {
   render() {
     const { navigate } = this.props.navigation
+    const meetup = this.props.navigation.getParam('meetup')
     return (
       <Container>
         <Header title={'Detail Meetup'} navigation={this.props.navigation} />
         <Content padder>
-          <H3>Asyncronous Node JS</H3>
+          <H3>{meetup.topic}</H3>
 
           <ListItem icon marginVertical={15}>
             <Left>
               <Icon name={'calendar'} />
             </Left>
             <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Senin, 5 September 2018</Text>
-              <Text note>6 PM</Text>
+              <Moment format='dddd, DD MMMM YYYY' element={Text}>
+                {meetup.datetime}
+              </Moment>
+              <Moment format='hh:mm a' element={Text}>
+                {meetup.datetime}
+              </Moment>
             </Body>
           </ListItem>
 
@@ -37,7 +42,7 @@ class MeetupDetail extends Component {
               <Icon name={'teach'} />
             </Left>
             <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Saya</Text>
+              <Text>{meetup.mentor.name}</Text>
               <Text note>Sebagai Mentor</Text>
             </Body>
           </ListItem>
@@ -47,7 +52,7 @@ class MeetupDetail extends Component {
               <Icon name={'book-open-variant'} />
             </Left>
             <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Herlina Prastiwi</Text>
+              <Text>{meetup.student.name}</Text>
               <Text note>Sebagai Murid</Text>
             </Body>
           </ListItem>
@@ -57,14 +62,16 @@ class MeetupDetail extends Component {
               <Icon name={'map-marker'} />
             </Left>
             <Body style={{ borderBottomColor: 'transparent' }}>
-              <Text>Polinema</Text>
-              <Text note>JL Soekarno Hatta</Text>
+              <Text>{meetup.detailPlace}</Text>
             </Body>
           </ListItem>
         </Content>
-        <Button block success onPress={() => navigate('MeetupReview')}>
-          <Text>Selesai</Text>
-        </Button>
+
+        {!meetup.isMentor ? (
+          <Button block success onPress={() => navigate('MeetupReview')}>
+            <Text>Selesai</Text>
+          </Button>
+        ) : null}
       </Container>
     )
   }
