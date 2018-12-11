@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import material from 'native-base-theme/variables/material'
 import styled from 'styled-components/native'
 
-import { TextIcon, Loading } from 'components'
+import { TextIcon } from 'components'
 import { Grid, Col } from 'native-base'
 import Moment from 'react-moment'
 

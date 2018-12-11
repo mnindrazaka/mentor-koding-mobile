@@ -29,16 +29,20 @@ class CustomListItem extends Component {
             icon={'map-marker'}
             color={'#656565'}
           />
-
           <ButtonContainer marginTop={15}>
-            <Button small onPress={() => alert('terima')}>
+            <Button small onPress={() => this.props.onAcceptMeetup()}>
               <Text>Terima</Text>
             </Button>
 
-            <Button small danger bordered onPress={() => alert('tolak')}>
+            <Button
+              small
+              danger
+              bordered
+              onPress={() => this.props.onRejectMeetup()}>
               <Text>Tolak</Text>
             </Button>
           </ButtonContainer>
+          )}
         </MeetupContainer>
       </Container>
     )
@@ -80,7 +84,9 @@ const ButtonContainer = styled.View`
 CustomListItem.propTypes = {
   topic: PropTypes.string.isRequired,
   detailPlace: PropTypes.string.isRequired,
-  datetime: PropTypes.string.isRequired
+  datetime: PropTypes.string.isRequired,
+  onAcceptMeetup: PropTypes.func.isRequired,
+  onRejectMeetup: PropTypes.func.isRequired
 }
 
 export default CustomListItem

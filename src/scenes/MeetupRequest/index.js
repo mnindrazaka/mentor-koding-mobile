@@ -4,17 +4,41 @@ import { Container, Content, List } from 'native-base'
 import { Header, Loading } from 'components'
 import ListItem from './ListItem'
 
-import { Query } from 'react-apollo'
-import { meetupsQuery } from '../../services/graphql'
+import { Query, ApolloConsumer } from 'react-apollo'
+import {
+  meetupsQuery,
+  updateMeetupMutation,
+  deleteMeetupMutation
+} from 'services/graphql'
 
 class MeetupRequest extends Component {
+  acceptMeetup(client, meetupId) {
+    client.mutate({
+      mutation: updateMeetupMutation,
+      variables: { meetup: { isConfirmed: true }, _id: meetupId }
+    })
+  }
+
+  rejectMeetup(client, meetupId) {
+    client.mutate({
+      mutation: deleteMeetupMutation,
+      variables: { _id: meetupId }
+    })
+  }
+
   renderRow(row) {
     return (
-      <ListItem
-        topic={row.topic}
-        detailPlace={row.detailPlace}
-        datetime={row.datetime}
-      />
+      <ApolloConsumer>
+        {client => (
+          <ListItem
+            topic={row.topic}
+            detailPlace={row.detailPlace}
+            datetime={row.datetime}
+            onAcceptMeetup={() => this.acceptMeetup(client, row._id)}
+            onRejectMeetup={() => this.rejectMeetup(client, row._id)}
+          />
+        )}
+      </ApolloConsumer>
     )
   }
 

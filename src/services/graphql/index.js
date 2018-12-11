@@ -10,6 +10,7 @@ import usersQuery from './query/usersQuery'
 import createMeetupMutation from './mutation/createMeetupMutation'
 import createUserMutation from './mutation/createUserMutation'
 import deleteUserMutation from './mutation/deleteUserMutation'
+import deleteMeetupMutation from './mutation/deleteMeetupMutation'
 import updateUserMutation from './mutation/updateUserMutation'
 import updateMeetupMutation from './mutation/updateMeetupMutation'
 
@@ -27,6 +28,7 @@ export {
   createMeetupMutation,
   createUserMutation,
   deleteUserMutation,
+  deleteMeetupMutation,
   updateUserMutation,
   updateMeetupMutation,
   client

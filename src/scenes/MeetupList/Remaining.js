@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Container, Content, List } from 'native-base'
-import { Loading } from 'components'
 import ListItem from './ListItem'
 
 class Remaining extends Component {
