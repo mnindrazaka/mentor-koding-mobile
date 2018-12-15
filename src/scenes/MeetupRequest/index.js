@@ -26,7 +26,7 @@ class MeetupRequest extends Component {
     })
   }
 
-  renderRow(row) {
+  renderRow(row, refetch) {
     return (
       <ApolloConsumer>
         {client => (
@@ -34,8 +34,14 @@ class MeetupRequest extends Component {
             topic={row.topic}
             detailPlace={row.detailPlace}
             datetime={row.datetime}
-            onAcceptMeetup={() => this.acceptMeetup(client, row._id)}
-            onRejectMeetup={() => this.rejectMeetup(client, row._id)}
+            onAcceptMeetup={() => {
+              this.acceptMeetup(client, row._id)
+              refetch()
+            }}
+            onRejectMeetup={() => {
+              this.rejectMeetup(client, row._id)
+              refetch()
+            }}
           />
         )}
       </ApolloConsumer>
@@ -50,12 +56,12 @@ class MeetupRequest extends Component {
           navigation={this.props.navigation}
         />
         <Query query={meetupsQuery} variables={{ isConfirmed: false }}>
-          {({ loading, error, data }) => (
+          {({ loading, error, data, refetch }) => (
             <Loading loading={loading} error={error}>
               <Content padder>
                 <List
                   dataArray={data.meetups}
-                  renderRow={row => this.renderRow(row)}
+                  renderRow={row => this.renderRow(row, refetch)}
                 />
               </Content>
             </Loading>
