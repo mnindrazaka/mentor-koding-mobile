@@ -13,9 +13,20 @@ import {
 import Moment from 'react-moment'
 import { Header } from 'components'
 
+import { ApolloConsumer } from 'react-apollo'
+import { updateMeetupMutation } from '../../services/graphql'
+
 class MeetupDetail extends Component {
+  finishMeetup(client, meetupId) {
+    client
+      .mutate({
+        mutation: updateMeetupMutation,
+        variables: { meetup: { isFinished: true }, _id: meetupId }
+      })
+      .then(() => this.props.navigation.navigate('MeetupReview', { meetupId }))
+  }
+
   render() {
-    const { navigate } = this.props.navigation
     const meetup = this.props.navigation.getParam('meetup')
     return (
       <Container>
@@ -68,9 +79,16 @@ class MeetupDetail extends Component {
         </Content>
 
         {!meetup.isMentor ? (
-          <Button block success onPress={() => navigate('MeetupReview')}>
-            <Text>Selesai</Text>
-          </Button>
+          <ApolloConsumer>
+            {client => (
+              <Button
+                block
+                success
+                onPress={() => this.finishMeetup(client, meetup._id)}>
+                <Text>Selesai</Text>
+              </Button>
+            )}
+          </ApolloConsumer>
         ) : null}
       </Container>
     )
