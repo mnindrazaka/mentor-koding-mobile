@@ -6,25 +6,25 @@ Mentor Koding is mobile application for people who want to learn about programmi
 
 1. clone the repo
 
-```
-git clone https://github.com/mnindrazaka/mentor-koding-mobile.git
+```bash
+$ git clone https://github.com/mnindrazaka/mentor-koding-mobile.git
 ```
 
 2. install npm package
 
-```
-npm install
+```bash
+$ npm install
 ```
 
 3. link project
 
-```
-react-native link
+```bash
+$ react-native link
 ```
 
 4. run project
 
-```
-react-native run-android
-react-native run-ios
+```bash
+$ react-native run-android
+$ react-native run-ios
 ```
