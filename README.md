@@ -1,4 +1,4 @@
-# mentor koding
+# Mentor Koding
 
 Mentor Koding is mobile application for people who want to learn about programming, user can meet with koding mentor to learn about programming topic or asking about the problem during their study
 
